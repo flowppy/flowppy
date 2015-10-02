@@ -1,0 +1,1 @@
+gcc -o bin/acc src/acc.c
