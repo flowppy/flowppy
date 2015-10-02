@@ -7,7 +7,9 @@ Résolvez les dépendances puis utilisez le script `opdis-flow-control-graph.sh`
 
 ##Dépendances
 ###opdis
-opdis est à récupérer depuis leur repo officiel (`https://github.com/mkfs/opdis`) et à placer/compiler dans `:/opdis` pour au final avoir le binaire `opdis` dans `:/opdis/dist/`
+opdis est à récupérer depuis leur repo officiel (`https://github.com/mkfs/opdis`) et à 
+ * soit placer/compiler dans `:/opdis` pour au final avoir le binaire `opdis` dans `:/opdis/dist/`
+ * soit l'installer "normalement" avec `make install` ou un gestionnaire de paquets
 
 ###Python 3.4
 Il faut Python pour exécuter du Python.
