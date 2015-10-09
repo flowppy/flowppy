@@ -2,6 +2,8 @@
 
 #Imports
 import shutil;
+import subprocess;
+from lxml import etree;
 
 #Main
 def main():
@@ -9,6 +11,14 @@ def main():
     if (shutil.which("opdis") is None):
         print("Impossible de trouver opdis, est-il installé ?");
         return;
+        
+    #xml = subprocess.Popen(["opdis", "-f", "xml", "-E", "/home/ubuntu/workspace/testbinaries/bin/acc"], stdout=subprocess.PIPE).stdout.read();
+
+    tree = etree.parse("/home/ubuntu/workspace/dis.xml");
+    
+    for node in tree.xpath("/disassembly/instruction/ascii"):
+        print(node.text);
+        
         
     return;
 

@@ -1,0 +1,1128 @@
+<?xml version="1.0"?>
+<!DOCTYPE disassembly [
+<!ELEMENT disassembly (instruction*)>
+<!ELEMENT instruction (offset,vma,bytes,ascii?,mnemonic?,prefix?,isa?,category?,flags?,operands?,invalid?)>
+<!ELEMENT offset (#PCDATA)>
+<!ELEMENT vma (#PCDATA)>
+<!ELEMENT bytes (byte+)>
+<!ELEMENT byte (#PCDATA)>
+<!ELEMENT ascii (#PCDATA)>
+<!ELEMENT mnemonic (#PCDATA)>
+<!ELEMENT prefix (#PCDATA)>
+<!ELEMENT isa (#PCDATA)>
+<!ELEMENT category (#PCDATA)>
+<!ELEMENT flags (flag+)>
+<!ELEMENT flag (#PCDATA)>
+<!ELEMENT operands (operand*)>
+<!ELEMENT operand (ascii,category,flags,value)>
+<!ATTLIST operand type (target|src|dest) "rien">
+<!ELEMENT value (register?,immediate?,absolute?,expression?)>
+<!ELEMENT register (ascii,id,size,flags)>
+<!ELEMENT immediate (#PCDATA)>
+<!ELEMENT absolute (segment,immediate)>
+<!ELEMENT segment (register)>
+<!ELEMENT expression (base?,index?,scale,shift?,displacement?)>
+<!ELEMENT base (register)>
+<!ELEMENT index (register)>
+<!ELEMENT scale (#PCDATA)>
+<!ELEMENT shift (#PCDATA)>
+<!ELEMENT displacement (absolute?,immediate?)>
+]>
+<disassembly>
+<instruction>
+  <offset>0x0</offset>
+  <vma>0x400440</vma>
+  <bytes>
+    <byte>31</byte>
+    <byte>ED</byte>
+  </bytes>
+  <ascii>xor    %ebp,%ebp</ascii>
+  <mnemonic>xor</mnemonic>
+  <isa>general purpose</isa>
+  <category>bitwise</category>
+  <flags>
+    <flag>bitwise xor</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%ebp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>ebp</ascii>
+        <id>6</id>
+        <size>4</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%ebp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>ebp</ascii>
+        <id>6</id>
+        <size>4</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x2</offset>
+  <vma>0x400442</vma>
+  <bytes>
+    <byte>49</byte>
+    <byte>89</byte>
+    <byte>D1</byte>
+  </bytes>
+  <ascii>mov    %rdx,%r9</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rdx</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rdx</ascii>
+        <id>3</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%r9</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>r9</ascii>
+        <id>10</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x5</offset>
+  <vma>0x400445</vma>
+  <bytes>
+    <byte>5E</byte>
+  </bytes>
+  <ascii>pop    %rsi</ascii>
+  <mnemonic>pop</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>pop</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rsi</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rsi</ascii>
+        <id>7</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x6</offset>
+  <vma>0x400446</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>89</byte>
+    <byte>E2</byte>
+  </bytes>
+  <ascii>mov    %rsp,%rdx</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rsp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rsp</ascii>
+        <id>5</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>stack ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rdx</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rdx</ascii>
+        <id>3</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x9</offset>
+  <vma>0x400449</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>83</byte>
+    <byte>E4</byte>
+    <byte>F0</byte>
+  </bytes>
+  <ascii>and    $0xfffffffffffffff0,%rsp</ascii>
+  <mnemonic>and</mnemonic>
+  <isa>general purpose</isa>
+  <category>bitwise</category>
+  <flags>
+    <flag>bitwise and</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0xfffffffffffffff0</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0XFFFFFFFFFFFFFFF0</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rsp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rsp</ascii>
+        <id>5</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>stack ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0xd</offset>
+  <vma>0x40044d</vma>
+  <bytes>
+    <byte>50</byte>
+  </bytes>
+  <ascii>push   %rax</ascii>
+  <mnemonic>push</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>push</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0xe</offset>
+  <vma>0x40044e</vma>
+  <bytes>
+    <byte>54</byte>
+  </bytes>
+  <ascii>push   %rsp</ascii>
+  <mnemonic>push</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>push</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rsp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rsp</ascii>
+        <id>5</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>stack ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0xf</offset>
+  <vma>0x40044f</vma>
+  <bytes>
+    <byte>49</byte>
+    <byte>C7</byte>
+    <byte>C0</byte>
+    <byte>E0</byte>
+    <byte>05</byte>
+    <byte>40</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x4005e0,%r8</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x4005e0</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X4005E0</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%r8</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>r8</ascii>
+        <id>9</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x16</offset>
+  <vma>0x400456</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>C7</byte>
+    <byte>C1</byte>
+    <byte>70</byte>
+    <byte>05</byte>
+    <byte>40</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x400570,%rcx</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x400570</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X400570</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rcx</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rcx</ascii>
+        <id>2</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x1d</offset>
+  <vma>0x40045d</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>C7</byte>
+    <byte>C7</byte>
+    <byte>2D</byte>
+    <byte>05</byte>
+    <byte>40</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x40052d,%rdi</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x40052d</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X40052D</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rdi</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rdi</ascii>
+        <id>8</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x24</offset>
+  <vma>0x400464</vma>
+  <bytes>
+    <byte>E8</byte>
+    <byte>B7</byte>
+    <byte>FF</byte>
+    <byte>FF</byte>
+    <byte>FF</byte>
+  </bytes>
+  <ascii>callq  0x0000000000400420</ascii>
+  <mnemonic>callq</mnemonic>
+  <isa>general purpose</isa>
+  <category>control flow</category>
+  <flags>
+    <flag>call</flag>
+  </flags>
+  <operands>
+    <operand name="target">
+    <ascii>0x0000000000400420</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+      <flag>exec</flag>
+      <flag>address</flag>
+    </flags>
+    <value>
+      <immediate>0X400420</immediate>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x29</offset>
+  <vma>0x400469</vma>
+  <bytes>
+    <byte>F4</byte>
+  </bytes>
+  <ascii>hlt    </ascii>
+  <mnemonic>hlt</mnemonic>
+  <isa>general purpose</isa>
+  <category>privileged</category>
+  <flags>
+  </flags>
+  <operands>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x2a</offset>
+  <vma>0x40046a</vma>
+  <bytes>
+    <byte>66</byte>
+    <byte>0F</byte>
+    <byte>1F</byte>
+    <byte>44</byte>
+    <byte>00</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>nopw   0x0(%rax,%rax,1)</ascii>
+  <mnemonic>nopw</mnemonic>
+  <isa>general purpose</isa>
+  <category>unknown</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>0x0(%rax,%rax,1)</ascii>
+    <category>address expression</category>
+    <flags>
+      <flag>read</flag>
+      <flag>address</flag>
+    </flags>
+    <value>
+      <expression>
+        <base>
+          <register>
+            <ascii>rax</ascii>
+            <id>1</id>
+            <size>8</size>
+            <flags>
+              <flag>general</flag>
+            </flags>
+          </register>
+        </base>
+        <index>
+          <register>
+            <ascii>rax</ascii>
+            <id>1</id>
+            <size>8</size>
+            <flags>
+              <flag>general</flag>
+            </flags>
+          </register>
+        </index>
+        <scale>1</scale>
+        <shift>asl</shift>
+        <displacement>
+          <immediate>0</immediate>
+        </displacement>
+      </expression>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x30</offset>
+  <vma>0x400470</vma>
+  <bytes>
+    <byte>B8</byte>
+    <byte>47</byte>
+    <byte>10</byte>
+    <byte>60</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x601047,%eax</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x601047</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X601047</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%eax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>eax</ascii>
+        <id>1</id>
+        <size>4</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x35</offset>
+  <vma>0x400475</vma>
+  <bytes>
+    <byte>55</byte>
+  </bytes>
+  <ascii>push   %rbp</ascii>
+  <mnemonic>push</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>push</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rbp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rbp</ascii>
+        <id>6</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x36</offset>
+  <vma>0x400476</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>2D</byte>
+    <byte>40</byte>
+    <byte>10</byte>
+    <byte>60</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>sub    $0x601040,%rax</ascii>
+  <mnemonic>sub</mnemonic>
+  <isa>general purpose</isa>
+  <category>arithmetic</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x601040</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X601040</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x3c</offset>
+  <vma>0x40047c</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>83</byte>
+    <byte>F8</byte>
+    <byte>0E</byte>
+  </bytes>
+  <ascii>cmp    $0xe,%rax</ascii>
+  <mnemonic>cmp</mnemonic>
+  <isa>general purpose</isa>
+  <category>compare</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0xe</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0XE</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x40</offset>
+  <vma>0x400480</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>89</byte>
+    <byte>E5</byte>
+  </bytes>
+  <ascii>mov    %rsp,%rbp</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rsp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rsp</ascii>
+        <id>5</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>stack ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rbp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rbp</ascii>
+        <id>6</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x43</offset>
+  <vma>0x400483</vma>
+  <bytes>
+    <byte>77</byte>
+    <byte>02</byte>
+  </bytes>
+  <ascii>ja     0x0000000000400487</ascii>
+  <mnemonic>ja</mnemonic>
+  <isa>general purpose</isa>
+  <category>control flow</category>
+  <flags>
+    <flag>conditional jump</flag>
+  </flags>
+  <operands>
+    <operand name="target">
+    <ascii>0x0000000000400487</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+      <flag>exec</flag>
+      <flag>address</flag>
+    </flags>
+    <value>
+      <immediate>0X400487</immediate>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x45</offset>
+  <vma>0x400485</vma>
+  <bytes>
+    <byte>5D</byte>
+  </bytes>
+  <ascii>pop    %rbp</ascii>
+  <mnemonic>pop</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>pop</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rbp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rbp</ascii>
+        <id>6</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x46</offset>
+  <vma>0x400486</vma>
+  <bytes>
+    <byte>C3</byte>
+  </bytes>
+  <ascii>retq   </ascii>
+  <mnemonic>retq</mnemonic>
+  <isa>general purpose</isa>
+  <category>control flow</category>
+  <flags>
+    <flag>return</flag>
+  </flags>
+  <operands>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x47</offset>
+  <vma>0x400487</vma>
+  <bytes>
+    <byte>B8</byte>
+    <byte>00</byte>
+    <byte>00</byte>
+    <byte>00</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x0,%eax</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x0</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%eax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>eax</ascii>
+        <id>1</id>
+        <size>4</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x4c</offset>
+  <vma>0x40048c</vma>
+  <bytes>
+    <byte>48</byte>
+    <byte>85</byte>
+    <byte>C0</byte>
+  </bytes>
+  <ascii>test   %rax,%rax</ascii>
+  <mnemonic>test</mnemonic>
+  <isa>general purpose</isa>
+  <category>compare</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x4f</offset>
+  <vma>0x40048f</vma>
+  <bytes>
+    <byte>74</byte>
+    <byte>F4</byte>
+  </bytes>
+  <ascii>je     0x0000000000400485</ascii>
+  <mnemonic>je</mnemonic>
+  <isa>general purpose</isa>
+  <category>control flow</category>
+  <flags>
+    <flag>conditional jump</flag>
+  </flags>
+  <operands>
+    <operand name="target">
+    <ascii>0x0000000000400485</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+      <flag>exec</flag>
+      <flag>address</flag>
+    </flags>
+    <value>
+      <immediate>0X400485</immediate>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x51</offset>
+  <vma>0x400491</vma>
+  <bytes>
+    <byte>5D</byte>
+  </bytes>
+  <ascii>pop    %rbp</ascii>
+  <mnemonic>pop</mnemonic>
+  <isa>general purpose</isa>
+  <category>stack</category>
+  <flags>
+    <flag>pop</flag>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>%rbp</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rbp</ascii>
+        <id>6</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+          <flag>frame ptr</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x52</offset>
+  <vma>0x400492</vma>
+  <bytes>
+    <byte>BF</byte>
+    <byte>40</byte>
+    <byte>10</byte>
+    <byte>60</byte>
+    <byte>00</byte>
+  </bytes>
+  <ascii>mov    $0x601040,%edi</ascii>
+  <mnemonic>mov</mnemonic>
+  <isa>general purpose</isa>
+  <category>load/store</category>
+  <flags>
+  </flags>
+  <operands>
+    <operand name="src">
+    <ascii>$0x601040</ascii>
+    <category>immediate</category>
+    <flags>
+      <flag>read</flag>
+    </flags>
+    <value>
+      <immediate>0X601040</immediate>
+    </value>
+    </operand>
+    <operand name="dest">
+    <ascii>%edi</ascii>
+    <category>register</category>
+    <flags>
+      <flag>write</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>edi</ascii>
+        <id>8</id>
+        <size>4</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+<instruction>
+  <offset>0x57</offset>
+  <vma>0x400497</vma>
+  <bytes>
+    <byte>FF</byte>
+    <byte>E0</byte>
+  </bytes>
+  <ascii>jmpq   *%rax</ascii>
+  <mnemonic>jmpq</mnemonic>
+  <isa>general purpose</isa>
+  <category>control flow</category>
+  <flags>
+    <flag>jump</flag>
+  </flags>
+  <operands>
+    <operand name="target">
+    <ascii>*%rax</ascii>
+    <category>register</category>
+    <flags>
+      <flag>read</flag>
+      <flag>exec</flag>
+    </flags>
+    <value>
+      <register>
+        <ascii>rax</ascii>
+        <id>1</id>
+        <size>8</size>
+        <flags>
+          <flag>general</flag>
+        </flags>
+      </register>
+    </value>
+    </operand>
+  </operands>
+</instruction>
+</disassembly>
