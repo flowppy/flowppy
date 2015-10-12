@@ -13,3 +13,6 @@ opdis est à récupérer depuis leur repo officiel (`https://github.com/mkfs/opd
 
 ###Python 3.4
 Il faut Python pour exécuter du Python.
+
+Modules nécessaires :
+ * pygraphviz (nécessite les paquets `graphviz`, `graphviz-dev` et `libgraphviz-dev`)

@@ -3,8 +3,9 @@
 #Imports
 import shutil;
 import subprocess;
-from xml.dom.minidom import parseString;
 import xml.dom.minidom;
+from xml.dom.minidom import parseString;
+import pygraphviz as pgv
 
 #Main
 def main():
