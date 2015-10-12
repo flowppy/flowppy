@@ -5,7 +5,7 @@ import shutil;
 import subprocess;
 import xml.dom.minidom;
 from xml.dom.minidom import parseString;
-import pygraphviz as pgv
+import networkx as nx;
 
 #Main
 def main():
