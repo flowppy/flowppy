@@ -15,7 +15,7 @@ def main():
         return;
         
     #Chargement du XML    
-    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", "/home/ubuntu/workspace/testbinaries/bin/acc"], stdout=subprocess.PIPE).stdout.read();
+    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", "./testbinaries/bin/acc"], stdout=subprocess.PIPE).stdout.read();
     
     ###Essai de minidom
     document = parseString(xml).documentElement;
