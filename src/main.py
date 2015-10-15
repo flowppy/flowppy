@@ -20,12 +20,32 @@ def main():
     ###Essai de minidom
     document = parseString(xml).documentElement;
     
+    instructions = [];
+    
     for instruction in document.getElementsByTagName("instruction"):
-        print(instruction.getElementsByTagName('mnemonic')[0].childNodes[0].data);
+        instructions.append(getInstructionChild(instruction, "offset") + " - " +  getInstructionChild(instruction, "ascii"));
+        
+    ###Essai de nx
+    graph = nx.Graph();
+    #graph.add_nodes_from(instructions);
+    
+    for i in range(len(instructions)):
+        if (i != 0):
+            graph.add_edge(instructions[i-1], instructions[i]);
+    
+    nx.write_dot(graph, "graph.dot");
+    
+    neato_output = subprocess.Popen(["neato", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
+    png = open("graph.png", 'wb');
+    png.write(neato_output);
+    png.close();
         
     return;
 
 
+
+def getInstructionChild(instruction, tag):
+    return instruction.getElementsByTagName(tag)[0].childNodes[0].data;
 
 if __name__ == "__main__":
     main();

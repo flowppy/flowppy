@@ -11,8 +11,12 @@ opdis est à récupérer depuis leur repo officiel (`https://github.com/mkfs/opd
  * soit placer/compiler dans `:/opdis` pour au final avoir le binaire `opdis` dans `:/opdis/dist/`
  * soit l'installer "normalement" avec `make install` ou un gestionnaire de paquets
 
+###graphviz
+Le programme utilise `neato` pour convertir les `.dot` en `.png`
+
 ###Python 3.4
 Il faut Python pour exécuter du Python.
 
 Modules nécessaires :
  * networkx
+ * pydot
