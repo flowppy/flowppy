@@ -1,2 +1,5 @@
 opdis
 bin/
+*.png
+*.xml
+*.dot
