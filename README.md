@@ -19,4 +19,4 @@ Il faut Python pour exécuter du Python.
 
 Modules nécessaires :
  * networkx
- * pydot
+ * pydot2
