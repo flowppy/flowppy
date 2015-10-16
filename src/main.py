@@ -7,6 +7,9 @@ import xml.dom.minidom;
 from xml.dom.minidom import parseString;
 import networkx as nx;
 
+#Liste des mnemonic des jump
+JUMPS = ["je", "jbe"];
+
 #Main
 def main():
     #Vérification de la présence d'opdis dans le PATH
@@ -21,31 +24,45 @@ def main():
     document = parseString(xml).documentElement;
     
     instructions = [];
+    instructionsVmaTable = {};
     
     for instruction in document.getElementsByTagName("instruction"):
-        instructions.append(getInstructionChild(instruction, "offset") + " - " +  getInstructionChild(instruction, "ascii"));
+        instructions.append(instruction);
+        instructionsVmaTable[int(getInstructionChild(instruction, "vma"), 0)] = instruction;
         
     ###Essai de nx
     graph = nx.Graph();
-    #graph.add_nodes_from(instructions);
     
+    for i in range(1, len(instructions)):
+        graph.add_edge(createInstructionString(instructions[i-1]), createInstructionString(instructions[i]));
+            
     for i in range(len(instructions)):
-        if (i != 0):
-            graph.add_edge(instructions[i-1], instructions[i]);
-    
+        if getInstructionChild(instructions[i], "mnemonic") in JUMPS:
+            targetVma = getJumpTarget(instructions[i]);
+            graph.add_edge(createInstructionString(instructions[i]), createInstructionString(instructionsVmaTable[targetVma]));
+            
     nx.write_dot(graph, "graph.dot");
     
-    neato_output = subprocess.Popen(["neato", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
+    neato_output = subprocess.Popen(["circo", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
     png = open("graph.png", 'wb');
     png.write(neato_output);
     png.close();
         
     return;
-
-
+    
+def createInstructionString(instruction):
+    return getInstructionChild(instruction, "offset") + " - " +  getInstructionChild(instruction, "ascii");
 
 def getInstructionChild(instruction, tag):
     return instruction.getElementsByTagName(tag)[0].childNodes[0].data;
+    
+def getJumpTarget(instruction):
+    
+    return int(instruction.getElementsByTagName("operands")[0].
+    getElementsByTagName("ascii")[0].
+    childNodes[0].data, 0);
+    
+    return 0;
 
 if __name__ == "__main__":
     main();
