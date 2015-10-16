@@ -12,7 +12,7 @@ opdis est à récupérer depuis leur repo officiel (`https://github.com/mkfs/opd
  * soit l'installer "normalement" avec `make install` ou un gestionnaire de paquets
 
 ###graphviz
-Le programme utilise `circo` pour convertir les `.dot` en `.png`
+Le programme utilise `dot` pour convertir les `.dot` en `.png`
 
 ###Python 3.4
 Il faut Python pour exécuter du Python.

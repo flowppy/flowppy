@@ -20,7 +20,7 @@ def main():
     #Chargement du XML    
     xml = subprocess.Popen(["opdis", "-f", "xml", "-E", "./testbinaries/bin/acc"], stdout=subprocess.PIPE).stdout.read();
     
-    ###Essai de minidom
+    ###Création des structures de données
     document = parseString(xml).documentElement;
     
     instructions = [];
@@ -30,20 +30,22 @@ def main():
         instructions.append(instruction);
         instructionsVmaTable[int(getInstructionChild(instruction, "vma"), 0)] = instruction;
         
-    ###Essai de nx
-    graph = nx.Graph();
+    ###Création du graph
+    graph = nx.DiGraph();
     
-    for i in range(1, len(instructions)):
-        graph.add_edge(createInstructionString(instructions[i-1]), createInstructionString(instructions[i]));
-            
     for i in range(len(instructions)):
+        if (i !=0):
+            graph.add_edge(createInstructionString(instructions[i-1]), createInstructionString(instructions[i]));
+            
         if getInstructionChild(instructions[i], "mnemonic") in JUMPS:
             targetVma = getJumpTarget(instructions[i]);
             graph.add_edge(createInstructionString(instructions[i]), createInstructionString(instructionsVmaTable[targetVma]));
+        
             
+    ###Export du graph
     nx.write_dot(graph, "graph.dot");
     
-    neato_output = subprocess.Popen(["circo", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
+    neato_output = subprocess.Popen(["dot", "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
     png = open("graph.png", 'wb');
     png.write(neato_output);
     png.close();
