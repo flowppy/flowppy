@@ -20,3 +20,4 @@ Il faut Python pour exécuter du Python.
 Modules nécessaires :
  * networkx
  * pydot2
+ * clize

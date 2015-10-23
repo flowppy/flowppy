@@ -6,12 +6,16 @@ import subprocess;
 import xml.dom.minidom;
 from xml.dom.minidom import parseString;
 import networkx as nx;
+from clize import Parameter, run;
+from sigtools.modifiers import annotate, autokwoargs;
 
 #Liste des mnemonic des jump
 JUMPS = ["je", "jbe"];
 
 #Main
-def main():
+@annotate(input_file = Parameter.REQUIRED, output_file = "o", render_engine = "r", graph_type = "t")
+@autokwoargs
+def main(input_file, output_file = "graph.png", render_engine = "dot", graph_type = "regular", *render_options):
     #Vérification de la présence d'opdis dans le PATH
     if (shutil.which("opdis") is None):
         print("Impossible de trouver opdis, est-il installé ?");
@@ -67,4 +71,4 @@ def getJumpTarget(instruction):
     return 0;
 
 if __name__ == "__main__":
-    main();
+    run(main);
