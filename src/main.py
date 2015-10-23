@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #Imports
+import sys;
 import shutil;
 import subprocess;
 import xml.dom.minidom;
@@ -71,4 +72,5 @@ def getJumpTarget(instruction):
     return 0;
 
 if __name__ == "__main__":
+    sys.argv[0] = "opdis-control-flow-graph";
     run(main);
