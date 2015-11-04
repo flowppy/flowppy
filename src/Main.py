@@ -11,9 +11,13 @@ import OutputManager;
 import subprocess;
 from xml.dom.minidom import parseString;
 
+#Import des drivers
+import GraphDriver;
+import RegularDriver;
+import CondensedDriver;
+
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
-graph_types = ["regular", "condensed"];
 output_types = ["png", "gif", "svg", "svgz", "dot"];
 
 #Main
@@ -43,6 +47,12 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
+    
+    #Chargement des drivers
+    graph_drivers = {};
+    for sub in GraphDriver.GraphDriver.__subclasses__():
+        driver = sub(outputManager);
+        graph_drivers[driver.get_name()] = driver;
         
     #Vérification de la validité des options
     #render_engine
@@ -50,7 +60,7 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         outputManager.print_message("Unknown render engine : " + render_engine);
         return;
     #graph_type
-    if not graph_type in graph_types:
+    if not graph_type in graph_drivers:
         outputManager.print_message("Unknown graph type : " + graph_type);
         return;
     #input_file - si l'option est présente le fichier doit exister
@@ -71,13 +81,14 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         binary = sys.stdin.read();
         
         #On écrit ce qu'on a en entrée standard dans un fichier temporaire pour opdis
-        binary_file = tempfile.NamedTemporaryFile(delete=False);
+        binary_file = tempfile.NamedTemporaryFile(delete = False);
         binary_file.write(bytes(binary, 'UTF-8'));
         binary_file.close();
         input_file = binary_file.name;
         
     #Exécution d'opdis et récupération du XML
     xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
+    #TODO try-except sur le xml
     document = parseString(xml).documentElement;
 
 if __name__ == "__main__":
