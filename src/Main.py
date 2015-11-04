@@ -8,6 +8,8 @@ from sigtools.modifiers import annotate, autokwoargs;
 import tempfile;
 import os.path;
 import OutputManager;
+import subprocess;
+from xml.dom.minidom import parseString;
 
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
@@ -69,13 +71,14 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         binary = sys.stdin.read();
         
         #On écrit ce qu'on a en entrée standard dans un fichier temporaire pour opdis
-        binary_file = tempfile.NamedTemporaryFile();
+        binary_file = tempfile.NamedTemporaryFile(delete=False);
         binary_file.write(bytes(binary, 'UTF-8'));
         binary_file.close();
         input_file = binary_file.name;
         
     #Exécution d'opdis et récupération du XML
-    #xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
+    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
+    document = parseString(xml).documentElement;
 
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";
