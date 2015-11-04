@@ -86,11 +86,19 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         binary_file.close();
         input_file = binary_file.name;
         
-    #Exécution d'opdis et récupération du XML
-    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
-    #TODO try-except sur le xml
-    document = parseString(xml).documentElement;
-
+    #Traitement
+    try:
+        #Exécution d'opdis et récupération du XML
+        xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
+        document = parseString(xml).documentElement;   
+                
+        #Création du graphe
+        graph = graph_drivers[graph_type].create_graph(document);
+        
+    except:
+        outputManager.print_message("Error while creating graph : " + sys.exc_info()[0]);
+        return;
+        
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";
     run(main);
