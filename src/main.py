@@ -14,9 +14,23 @@ from sigtools.modifiers import annotate, autokwoargs;
 JUMPS = ["je", "jbe"];
 
 #Main
-@annotate(input_file = Parameter.REQUIRED, output_file = "o", render_engine = "r", graph_type = "t")
+@annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t")
 @autokwoargs
-def main(input_file, output_file = "graph.png", render_engine = "dot", graph_type = "regular", *render_options):
+def main(input_file = "", output_file = "", render_engine = "dot", graph_type = "regular", *render_options):
+    """
+    Creates an control flow graph from a binary file using opdis and graphviz
+    
+    input_file: The binary file to create the graph from. Will use stdin if missing
+    
+    output_file: The file to save the graph to (can be .png, .gif, .svg, .svgz, .dot). Will use stdout with png format if missing
+    
+    render_engine: The graphviz engine to use when rendering the graph. Can be "dot", "neato", "circo", "fdp", "sfdp" or "twopi"
+    
+    graph_type: The type of the final graph. Can be "regular" (one instruction per node), "condensed" (multiple instructions per node, jumps and calls as edges), "translated" (multiple instructions per node, with flow control structures detection)
+    
+    render_options: The options to use when rendering the graph. See graphviz's "dot" manual for more details.
+    """
+    
     #Vérification de la présence d'opdis dans le PATH
     if (shutil.which("opdis") is None):
         print("Impossible de trouver opdis, est-il installé ?");
