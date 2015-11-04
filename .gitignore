@@ -3,3 +3,4 @@ bin/
 *.png
 *.xml
 *.dot
+src/__pycache__/
