@@ -12,6 +12,7 @@ import OutputManager;
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
 graph_types = ["regular", "condensed"];
+output_types = ["png", "gif", "svg", "svgz", "dot"];
 
 #Main
 @annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q")
@@ -54,6 +55,13 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     if input_file and not os.path.isfile(input_file):
         outputManager.print_message("File not found : " + input_file);
         return;
+    #output_file - doit être un format reconnu
+    if output_file:
+        output_file_array = output_file.split(".");
+        extension = output_file_array[len(output_file_array)-1];
+        if not extension in output_types:
+            outputManager.print_message("Unsupported output format : " + extension);
+            return;
         
     #Lecture des données en entrée
     if not input_file:
@@ -67,7 +75,7 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         input_file = binary_file.name;
         
     #Exécution d'opdis et récupération du XML
-    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
+    #xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
 
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";
