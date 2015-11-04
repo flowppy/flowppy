@@ -2,11 +2,6 @@
 
 #Imports
 import sys;
-import shutil;
-import subprocess;
-import xml.dom.minidom;
-from xml.dom.minidom import parseString;
-import networkx as nx;
 from clize import Parameter, run;
 from sigtools.modifiers import annotate, autokwoargs;
 
@@ -30,60 +25,9 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     
     render_options: The options to use when rendering the graph. See graphviz's "dot" manual for more details.
     """
-    
-    #Vérification de la présence d'opdis dans le PATH
-    if (shutil.which("opdis") is None):
-        print("Impossible de trouver opdis, est-il installé ?");
-        return;
-        
-    #Chargement du XML    
-    xml = subprocess.Popen(["opdis", "-f", "xml", "-E", "./testbinaries/bin/acc"], stdout=subprocess.PIPE).stdout.read();
-    
-    ###Création des structures de données
-    document = parseString(xml).documentElement;
-    
-    instructions = [];
-    instructionsVmaTable = {};
-    
-    for instruction in document.getElementsByTagName("instruction"):
-        instructions.append(instruction);
-        instructionsVmaTable[int(getInstructionChild(instruction, "vma"), 0)] = instruction;
-        
-    ###Création du graph
-    graph = nx.DiGraph();
-    
-    for i in range(len(instructions)):
-        if (i !=0):
-            graph.add_edge(createInstructionString(instructions[i-1]), createInstructionString(instructions[i]));
-            
-        if getInstructionChild(instructions[i], "mnemonic") in JUMPS:
-            targetVma = getJumpTarget(instructions[i]);
-            graph.add_edge(createInstructionString(instructions[i]), createInstructionString(instructionsVmaTable[targetVma]));
-        
-            
-    ###Export du graph
-    nx.write_dot(graph, "graph.dot");
-    
-    neato_output = subprocess.Popen(["dot", "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-Tpng", "graph.dot"], stdout=subprocess.PIPE).stdout.read();
-    png = open("graph.png", 'wb');
-    png.write(neato_output);
-    png.close();
+
         
     return;
-    
-def createInstructionString(instruction):
-    return getInstructionChild(instruction, "offset") + " - " +  getInstructionChild(instruction, "ascii");
-
-def getInstructionChild(instruction, tag):
-    return instruction.getElementsByTagName(tag)[0].childNodes[0].data;
-    
-def getJumpTarget(instruction):
-    
-    return int(instruction.getElementsByTagName("operands")[0].
-    getElementsByTagName("ascii")[0].
-    childNodes[0].data, 0);
-    
-    return 0;
 
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";
