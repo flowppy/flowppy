@@ -11,6 +11,7 @@ import OutputManager;
 import subprocess;
 from xml.dom.minidom import parseString;
 import traceback;
+import networkx as nx;
 
 #Import des données
 import Instruction;

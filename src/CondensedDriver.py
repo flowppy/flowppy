@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import GraphDriver;
+import networkx as nx;
 
 class CondensedDriver(GraphDriver.GraphDriver):
     
