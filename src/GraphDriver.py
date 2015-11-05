@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from abc import ABCMeta, abstractmethod
+import re;
 
 class GraphDriver:
 
-    JUMPS = ["jo", "jno", "js", "jns", "je", "jz", "jne", "jnz", "jb", "jnae", "jc", "jnb", "jae", "jnc", "jbe", "jna", "ja", "jnbe", "jl", "jnge", "jge", "jnl", "jle", "jng", "jg", "jnle", "jp", "jpe", "jlp", "jpo", "jcxz", "jecxz"]; #TODO Le regex
+    JUMPS_REGEX_LIST = [
+        "jn?[abceglopsz]|jn[abgl]e|j[abglp]e|jpo|je?cxz" #x86
+    ];
     
     def __init__(self, outputmanager):
         __metaclass__ = ABCMeta;
@@ -16,3 +19,9 @@ class GraphDriver:
     
     @abstractmethod
     def create_graph(self, instructions_table, vma_instructions_table): pass;
+    
+    def is_jump(self, instruction):
+        for regex in self.JUMPS_REGEX_LIST:
+            if re.match(regex, instruction.mnemonic):
+                return True;    
+        return False;    

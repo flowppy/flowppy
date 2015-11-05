@@ -74,11 +74,12 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         outputManager.print_message("File not found : " + input_file);
         return;
     #output_file - doit être un format reconnu
+    output_file_extension = "";
     if output_file:
         output_file_array = output_file.split(".");
-        extension = output_file_array[len(output_file_array)-1];
-        if not extension in output_types:
-            outputManager.print_message("Unsupported output format : " + extension);
+        output_file_extension = output_file_array[len(output_file_array)-1];
+        if not output_file_extension in output_types:
+            outputManager.print_message("Unsupported output format : " + output_file_extension);
             return;
         
     #Lecture des données en entrée
@@ -123,6 +124,26 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
                 
         #Création du graphe
         graph = graph_drivers[graph_type].create_graph(instructions_table, vma_instructions_table);
+        
+        #Création du .dot dans un fichier temporaire
+        pass;
+        
+        #On regarde l'output demandé
+        if output_file:
+            #On veut un fichier
+            if output_file_extension == ".dot":
+                #On copie le .dot temporaire là où il veut
+                pass;
+            else:
+                #On convertit le .dot temporaire là où il veut
+                pass;
+        else:
+            #On veut dans stdout
+            #On convertit le .dot temporaire dans un png temporaire
+            
+            #On le lit et le redonne dans stdout
+            pass;
+        
         
     except Exception as e:
         outputManager.print_message("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
