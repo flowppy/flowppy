@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-#Imports
+#Import des modules
 import sys;
 from clize import Parameter, run;
 import shutil;
@@ -10,6 +10,11 @@ import os.path;
 import OutputManager;
 import subprocess;
 from xml.dom.minidom import parseString;
+import traceback;
+
+#Import des données
+import Instruction;
+import Operand;
 
 #Import des drivers
 import GraphDriver;
@@ -91,13 +96,43 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         #Exécution d'opdis et récupération du XML
         xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
         document = parseString(xml).documentElement;   
+        
+        #Création de la liste des instructions
+        instructions_table = [];
+        vma_instructions_table = {};
+        
+        for instructionNode in document.getElementsByTagName("instruction"):
+            instruction = Instruction.Instruction(
+                get_xml_child_value(instructionNode, "offset"),
+                get_xml_child_value(instructionNode, "vma"),
+                get_xml_child_value(instructionNode, "ascii"),
+                get_xml_child_value(instructionNode, "mnemonic")
+            );
+            
+            if (xml_node_has_child(instructionNode, "operands")):
+                for operandNode in instructionNode.getElementsByTagName("operand"):
+                    operand = Operand.Operand(
+                        operandNode.attributes["name"],
+                        get_xml_child_value(operandNode, "ascii")
+                    );
+                    instruction.add_operand(operand);
+                    
+            instructions_table.append(instruction);
+            vma_instructions_table[int(instruction.vma, 0)] = instruction;
                 
         #Création du graphe
-        graph = graph_drivers[graph_type].create_graph(document);
+        graph = graph_drivers[graph_type].create_graph(instructions_table, vma_instructions_table);
         
-    except:
-        outputManager.print_message("Error while creating graph : " + sys.exc_info()[0]);
+    except Exception as e:
+        outputManager.print_message("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
         return;
+        
+#Méthode pour récupérer l'enfant d'un node XML
+def get_xml_child_value(node, child_name):
+    return node.getElementsByTagName(child_name)[0].childNodes[0].data;
+    
+def xml_node_has_child(node, child_name):
+    return len(node.getElementsByTagName(child_name)) > 0;
         
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";
