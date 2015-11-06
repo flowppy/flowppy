@@ -13,8 +13,7 @@ class RegularDriver(GraphDriver.GraphDriver):
         
         for i in range(len(instructions_table)):
             if (i != 0):
-                instruction_string = instructions_table[i-1].create_string();
-                graph.add_edge(instruction_string, instruction_string);
+                graph.add_edge(instructions_table[i-1].create_string(), instructions_table[i].create_string());
                 
             instruction = instructions_table[i];
             if self.is_jump(instruction):

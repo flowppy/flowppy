@@ -6,7 +6,7 @@ import re;
 class GraphDriver:
 
     JUMPS_REGEX_LIST = [
-        "jn?[abceglopsz]|jn[abgl]e|j[abglp]e|jpo|je?cxz" #x86
+        "JE?CXZ|JPO|JN[ABGL]E|J[ABGLP]E|JN?[ABCEGLOPSZ]" #x86-64
     ];
     
     def __init__(self, outputmanager):
