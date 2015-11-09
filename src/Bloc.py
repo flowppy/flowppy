@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Bloc:
     
     def __init__(self, vma):
