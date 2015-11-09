@@ -35,7 +35,7 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     
     input_file: The binary file to create the graph from. Will use stdin if missing.
     
-    output_file: The file to save the graph to (can be .png, .gif, .svg, .svgz, .dot). Will use stdout with png format if missing.
+    output_file: The file to save the graph to (can be .png, .gif, .svg, .svgz, .dot). Will use stdout with PNG format if missing.
     
     render_engine: The graphviz engine to use when rendering the graph. Can be "dot", "neato", "circo", "fdp", "sfdp" or "twopi".
     
@@ -50,6 +50,8 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     if (shutil.which("opdis") is None):
         print("Unable to find opdis, is it installed ?");
         return;
+        
+    #TODO Vérifier la présence de graphviz
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
@@ -74,12 +76,15 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         outputManager.print_message("File not found : " + input_file);
         return;
     #output_file - doit être un format reconnu
-    output_file_extension = "";
+    output_file_format = "";
     if output_file:
         output_file_array = output_file.split(".");
-        output_file_extension = output_file_array[len(output_file_array)-1];
-        if not output_file_extension in output_types:
-            outputManager.print_message("Unsupported output format : " + output_file_extension);
+        if (len(output_file_array) == 1):
+            outputManager.print_message("Missing output file extension.");
+            return;
+        output_file_format = output_file_array[len(output_file_array)-1];
+        if not output_file_format in output_types:
+            outputManager.print_message("Unsupported output format : " + output_file_format);
             return;
         
     #Lecture des données en entrée
@@ -126,28 +131,48 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         graph = graph_drivers[graph_type].create_graph(instructions_table, vma_instructions_table);
         
         #Création du .dot dans un fichier temporaire
-        pass;
+        dot_file = tempfile.NamedTemporaryFile(delete = False);
+        nx.write_dot(graph, dot_file.name);
         
         #On regarde l'output demandé
         if output_file:
             #On veut un fichier
-            if output_file_extension == ".dot":
+            makedirs(output_file);
+            delete_file_if_exists(output_file);
+            if output_file_format == "dot":
                 #On copie le .dot temporaire là où il veut
-                pass;
+                shutil.copyfile(dot_file.name, output_file);
             else:
-                #On convertit le .dot temporaire là où il veut
-                pass;
+                #On convertit l'image là où il veut
+                output = render_graph(render_engine, output_file_format, dot_file.name);
+                image = open(output_file, 'wb');
+                image.write(output);
+                image.close();
+            outputManager.print_message("Graph saved to " + output_file);
         else:
             #On veut dans stdout
-            #On convertit le .dot temporaire dans un png temporaire
-            
-            #On le lit et le redonne dans stdout
+            #On convertit le .dot temporaire dans stdout
             pass;
         
         
     except Exception as e:
         outputManager.print_message("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
-        return;
+
+#Méthode qui exécute le moteur de rendu et renvoie le fichier généré
+def render_graph(render_engine, output_format, dot_file):
+    return subprocess.Popen([render_engine, "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-T" + output_format, dot_file], stderr=subprocess.DEVNULL, stdout=subprocess.PIPE).stdout.read();
+
+#Méthode pour créer tous les dossiers parents d'un fichier
+def makedirs(filename):
+    if not os.path.exists(os.path.dirname(os.path.abspath(filename))):
+        os.makedirs(os.path.dirname(os.path.abspath(filename)));
+        
+#Méthode pour supprimer un fichier qui existe peut-être
+def delete_file_if_exists(filename):
+    try:
+        os.remove(filename)
+    except OSError:
+        pass;
         
 #Méthode pour récupérer l'enfant d'un node XML
 def get_xml_child_value(node, child_name):
