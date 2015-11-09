@@ -10,6 +10,6 @@ class Bloc:
     def setSon(bloc):
         self.blocSon = bloc; 
         
-    def addInstruciton(instruction):
+    def addInstruction(instruction):
         self.instruction.append(instruction);
         
