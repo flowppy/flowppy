@@ -13,7 +13,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
         i = 0;
         bloc = Bloc(intruction_table[i].vma);
         while(i <= len(instructions_table)-1):
-            i++;
+            i = i+1;
             cur_inst =instruction_table[i];
             if(is_jump(self, cur_inst)):
                 bloc2 = Bloc(cur_inst.vma);
