@@ -149,7 +149,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         else:
             #On veut dans stdout
             #On convertit le .dot temporaire dans stdout
-            print(render_and_read_graph(render_engine, output_format, dot_file.name));
+            sys.stdout.buffer.write(render_and_read_graph(render_engine, output_format, dot_file.name));
               
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
