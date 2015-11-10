@@ -19,7 +19,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
             if(is_jump(self, cur_inst)):
                 bloc2 = Bloc(cur_inst.vma);
                 bloc.setSon(bloc2);
-                waiting_list.append(bloc2.etiquette : bloc2);
+                waiting_list[bloc2.etiquette] = bloc2;
             else:
                 if(cur_inst.vma in waiting_list):
                     bloc2 = waiting_list[cur_inst.vma];
