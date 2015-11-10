@@ -141,7 +141,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
                 shutil.copyfile(dot_file.name, output_file);
             else:
                 #On convertit l'image là où il veut
-                output = render_graph(render_engine, output_format, dot_file.name);
+                output = render_and_read_graph(render_engine, output_format, dot_file.name);
                 image = open(output_file, 'wb');
                 image.write(output);
                 image.close();
@@ -149,15 +149,17 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         else:
             #On veut dans stdout
             #On convertit le .dot temporaire dans stdout
-            pass;
-        
-        
+            print(render_and_read_graph(render_engine, output_format, dot_file.name));
+              
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
 
-#Méthode qui exécute le moteur de rendu et renvoie le fichier généré
-def render_graph(render_engine, output_format, dot_file):
-    return subprocess.Popen([render_engine, "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-T" + output_format, dot_file], stderr=subprocess.DEVNULL, stdout=subprocess.PIPE).stdout.read();
+#Méthode qui exécute le moteur de rendu et affiche le résultat dans stdout
+def create_render_graph_subprocess(render_engine, output_format, dot_file):
+    return subprocess.Popen([render_engine, "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-T" + output_format, dot_file], stderr=subprocess.DEVNULL, stdout=subprocess.PIPE);
+    
+def render_and_read_graph(render_engine, output_format, dot_file):
+    return create_render_graph_subprocess(render_engine, output_format, dot_file).stdout.read();
 
 #Méthode pour créer tous les dossiers parents d'un fichier
 def makedirs(filename):
