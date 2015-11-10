@@ -24,18 +24,18 @@ import CondensedDriver;
 
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
-output_types = ["png", "gif", "svg", "svgz", "dot"];
+output_formats = ["png", "gif", "svg", "svgz", "dot"];
 
 #Main
-@annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q")
+@annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f")
 @autokwoargs
-def main(input_file = "", output_file = "", render_engine = "dot", graph_type = "regular", quiet_mode = False, *render_options):
+def main(input_file = "", output_file = "", output_format = "png", render_engine = "dot", graph_type = "regular", quiet_mode = False, *render_options):
     """
     Creates an control flow graph from a binary file using opdis and graphviz.
     
     input_file: The binary file to create the graph from. Will use stdin if missing.
     
-    output_file: The file to save the graph to (can be .png, .gif, .svg, .svgz, .dot). Will use stdout with PNG format if missing.
+    output_file: The file to save the graph to. Will use stdout if missing.
     
     render_engine: The graphviz engine to use when rendering the graph. Can be "dot", "neato", "circo", "fdp", "sfdp" or "twopi".
     
@@ -44,6 +44,8 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     render_options: The options to use when rendering the graph. See graphviz's "dot" manual for more details.
     
     quiet_mode: If enabled, the program will not output anything except for the resulting graph, even when failing.
+    
+    output_format: The format of the output file. Can be png, gif, svg, svgz or dot.
     """
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
@@ -77,17 +79,10 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     if input_file and not os.path.isfile(input_file):
         outputManager.print_error("File not found : " + input_file);
         return;
-    #output_file - doit être un format reconnu
-    output_file_format = "";
-    if output_file:
-        output_file_array = output_file.split(".");
-        if (len(output_file_array) == 1):
-            outputManager.print_error("Missing output file extension.");
-            return;
-        output_file_format = output_file_array[len(output_file_array)-1];
-        if not output_file_format in output_types:
-            outputManager.print_error("Unsupported output format : " + output_file_format);
-            return;
+    #output_format
+    if not output_format in output_formats:
+        outputManager.print_error("Unknown output format : " + output_format);
+        return;
         
     #Lecture des données en entrée
     if not input_file:
@@ -141,12 +136,12 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
             #On veut un fichier
             makedirs(output_file);
             delete_file_if_exists(output_file);
-            if output_file_format == "dot":
+            if output_format == "dot":
                 #On copie le .dot temporaire là où il veut
                 shutil.copyfile(dot_file.name, output_file);
             else:
                 #On convertit l'image là où il veut
-                output = render_graph(render_engine, output_file_format, dot_file.name);
+                output = render_graph(render_engine, output_format, dot_file.name);
                 image = open(output_file, 'wb');
                 image.write(output);
                 image.close();
