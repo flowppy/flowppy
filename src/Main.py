@@ -45,16 +45,16 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     
     quiet_mode: If enabled, the program will not output anything except for the resulting graph, even when failing.
     """
-
-    #Vérification de la présence d'opdis dans le PATH
-    if (shutil.which("opdis") is None):
-        print("Unable to find opdis, is it installed ?");
-        return;
-        
-    #TODO Vérifier la présence de graphviz
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
+    
+    #Vérification de la présence d'opdis dans le PATH
+    if (shutil.which("opdis") is None):
+        outputManager.print_error("Unable to find opdis, is it installed ?");
+        return;
+        
+    #TODO Vérifier la présence de graphviz
     
     #Chargement des drivers
     graph_drivers = {};
