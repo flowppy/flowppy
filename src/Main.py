@@ -49,12 +49,14 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
     
-    #Vérification de la présence d'opdis dans le PATH
+    #Vérification de la présence d'opdis et de graphviz dans le PATH
     if (shutil.which("opdis") is None):
         outputManager.print_error("Unable to find opdis, is it installed ?");
         return;
         
-    #TODO Vérifier la présence de graphviz
+    if (shutil.which("dot") is None):
+        outputManager.print_error("Unable to find graphviz, is it installed ?");
+        return;
     
     #Chargement des drivers
     graph_drivers = {};
