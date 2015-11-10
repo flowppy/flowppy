@@ -12,6 +12,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
         waiting_list = [];
         i = 0;
         bloc = Bloc(intruction_table[i].vma);
+        bloc_origin = bloc;
         while(i <= len(instructions_table)-1):
             i++;
             cur_inst =instruction_table[i];
@@ -31,4 +32,5 @@ class CondensedDriver(GraphDriver.GraphDriver):
                         bloc = bloc2;
                     else:
                         bloc.addInstruction(cur_inst.create_string());
-        pass;
+        graph= nx.DiGraph();
+        return bloc_origin.get_graph(graph);
