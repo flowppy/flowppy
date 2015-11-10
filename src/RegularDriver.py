@@ -16,7 +16,7 @@ class RegularDriver(GraphDriver.GraphDriver):
                 graph.add_edge(instructions_table[i-1].create_string(), instructions_table[i].create_string());
                 
             instruction = instructions_table[i];
-            if self.is_jump(instruction):
+            if super(RegularDriver, self).is_jump(instruction):
                 targetVma = instruction.operands[0].ascii;
                 graph.add_edge(instruction.create_string(), vma_instructions_table[int(targetVma, 0)].create_string());
         return graph;

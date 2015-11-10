@@ -3,7 +3,7 @@
 from abc import ABCMeta, abstractmethod
 import re;
 
-class GraphDriver:
+class GraphDriver(object):
 
     JUMPS_REGEX_LIST = [
         "je?cxz|jpo|jn[abgl]e|j[abglp]e|jn?[abceglopsz]" #x86-64
@@ -11,7 +11,6 @@ class GraphDriver:
     
     def __init__(self, outputmanager):
         __metaclass__ = ABCMeta;
-    
         self.outputManager = outputmanager;
         
     @abstractmethod
