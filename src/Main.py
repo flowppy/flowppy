@@ -67,26 +67,26 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
     #Vérification de la validité des options
     #render_engine
     if not render_engine in render_engines:
-        outputManager.print_message("Unknown render engine : " + render_engine);
+        outputManager.print_error("Unknown render engine : " + render_engine);
         return;
     #graph_type
     if not graph_type in graph_drivers:
-        outputManager.print_message("Unknown graph type : " + graph_type);
+        outputManager.print_error("Unknown graph type : " + graph_type);
         return;
     #input_file - si l'option est présente le fichier doit exister
     if input_file and not os.path.isfile(input_file):
-        outputManager.print_message("File not found : " + input_file);
+        outputManager.print_error("File not found : " + input_file);
         return;
     #output_file - doit être un format reconnu
     output_file_format = "";
     if output_file:
         output_file_array = output_file.split(".");
         if (len(output_file_array) == 1):
-            outputManager.print_message("Missing output file extension.");
+            outputManager.print_error("Missing output file extension.");
             return;
         output_file_format = output_file_array[len(output_file_array)-1];
         if not output_file_format in output_types:
-            outputManager.print_message("Unsupported output format : " + output_file_format);
+            outputManager.print_error("Unsupported output format : " + output_file_format);
             return;
         
     #Lecture des données en entrée
@@ -158,7 +158,7 @@ def main(input_file = "", output_file = "", render_engine = "dot", graph_type = 
         
         
     except Exception as e:
-        outputManager.print_message("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
+        outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
 
 #Méthode qui exécute le moteur de rendu et renvoie le fichier généré
 def render_graph(render_engine, output_format, dot_file):
