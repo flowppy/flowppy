@@ -45,7 +45,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     
     output_format: The format of the output file. Can be png, gif, svg, svgz or dot.
     
-    disassembly_driver: The disassembly driver to use.
+    disassembly_driver: The disassembly driver to use. The only driver currently supported is opdis.
     """
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
