@@ -9,18 +9,16 @@ import tempfile;
 import os.path;
 import OutputManager;
 import subprocess;
-from xml.dom.minidom import parseString;
 import traceback;
 import networkx as nx;
-
-#Import des données
-import Instruction;
-import Operand;
 
 #Import des drivers
 import GraphDriver;
 import RegularDriver;
 import CondensedDriver;
+
+import DisassemblyDriver;
+import OpdisDriver;
 
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
@@ -61,12 +59,18 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         return;
     
     #Chargement des drivers
+    #DisassemblyDriver
+    disassembly_drivers = {};
+    for sub in DisassemblyDriver.DisassemblyDriver.__subclasses__():
+        disassembly_drivers[sub.get_name()] = sub;
+    #GraphDriver
     graph_drivers = {};
     for sub in GraphDriver.GraphDriver.__subclasses__():
-        driver = sub(outputManager);
-        graph_drivers[driver.get_name()] = driver;
+        graph_drivers[sub.get_name()] = sub;
+
         
     #Vérification de la validité des options
+    #TODO DisassemblerDriver
     #render_engine
     if not render_engine in render_engines:
         outputManager.print_error("Unknown render engine : " + render_engine);
@@ -97,35 +101,13 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         
     #Traitement
     try:
-        #Exécution d'opdis et récupération du XML
-        xml = subprocess.Popen(["opdis", "-f", "xml", "-E", input_file], stdout=subprocess.PIPE).stdout.read();
-        document = parseString(xml).documentElement;   
-        
-        #Création de la liste des instructions
-        instructions_table = [];
-        vma_instructions_table = {};
-        
-        for instructionNode in document.getElementsByTagName("instruction"):
-            instruction = Instruction.Instruction(
-                get_xml_child_value(instructionNode, "offset"),
-                get_xml_child_value(instructionNode, "vma"),
-                get_xml_child_value(instructionNode, "ascii"),
-                get_xml_child_value(instructionNode, "mnemonic")
-            );
-            
-            if (xml_node_has_child(instructionNode, "operands")):
-                for operandNode in instructionNode.getElementsByTagName("operand"):
-                    operand = Operand.Operand(
-                        operandNode.attributes["name"],
-                        get_xml_child_value(operandNode, "ascii")
-                    );
-                    instruction.add_operand(operand);
-                    
-            instructions_table.append(instruction);
-            vma_instructions_table[int(instruction.vma, 0)] = instruction;
+        #Exécution du désassemblage
+        disassembly_driver = disassembly_drivers["opdis"]();
+        instructions_table, vma_instructions_table = disassembly_driver.disassemble(input_file);
                 
         #Création du graphe
-        graph = graph_drivers[graph_type].create_graph(instructions_table, vma_instructions_table);
+        graph_driver = graph_drivers[graph_type](outputManager, disassembly_driver);
+        graph = graph_driver.create_graph(instructions_table, vma_instructions_table);
         
         #Création du .dot dans un fichier temporaire
         dot_file = tempfile.NamedTemporaryFile(delete = False);
@@ -150,6 +132,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
             #On veut dans stdout
             #On convertit le .dot temporaire dans stdout
             sys.stdout.buffer.write(render_and_read_graph(render_engine, output_format, dot_file.name));
+            sys.stdout.flush();
               
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
@@ -172,13 +155,6 @@ def delete_file_if_exists(filename):
         os.remove(filename)
     except OSError:
         pass;
-        
-#Méthode pour récupérer l'enfant d'un node XML
-def get_xml_child_value(node, child_name):
-    return node.getElementsByTagName(child_name)[0].childNodes[0].data;
-    
-def xml_node_has_child(node, child_name):
-    return len(node.getElementsByTagName(child_name)) > 0;
         
 if __name__ == "__main__":
     sys.argv[0] = "opdis-control-flow-graph";

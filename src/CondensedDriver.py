@@ -6,7 +6,7 @@ import Bloc;
 
 class CondensedDriver(GraphDriver.GraphDriver):
     
-    def get_name(self):
+    def get_name():
         return "condensed";
         
     def create_graph(self, instructions_table, vma_instructions_table):

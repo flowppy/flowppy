@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod;
 import re;
+import abstractclassmethod;
 
 class GraphDriver(object):
-
-    JUMPS_REGEX_LIST = [
-        "je?cxz|jpo|jn[abgl]e|j[abglp]e|jn?[abceglopsz]" #x86-64
-    ];
     
-    def __init__(self, outputmanager):
+    def __init__(self, outputmanager, disassemblerDriver):
         __metaclass__ = ABCMeta;
         self.outputManager = outputmanager;
+        self.disassemblerDriver = disassemblerDriver;
         
-    @abstractmethod
-    def get_name(self): pass;
+    @abstractclassmethod.abstractclassmethod
+    def get_name(): pass;
     
     @abstractmethod
     def create_graph(self, instructions_table, vma_instructions_table): pass;
     
     def is_jump(self, instruction):
-        for regex in self.JUMPS_REGEX_LIST:
-            if re.match(regex, instruction.mnemonic):
+        for regex in self.disassemblerDriver.compiled_jumps_regexes:
+            if regex.match(instruction.mnemonic):
                 return True;    
         return False;    
