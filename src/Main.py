@@ -25,9 +25,9 @@ render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
 output_formats = ["png", "gif", "svg", "svgz", "dot"];
 
 #Main
-@annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f")
+@annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f", disassembly_driver = "d")
 @autokwoargs
-def main(input_file = "", output_file = "", output_format = "png", render_engine = "dot", graph_type = "regular", quiet_mode = False, *render_options):
+def main(input_file = "", output_file = "", output_format = "png", render_engine = "dot", graph_type = "regular", quiet_mode = False, disassembly_driver = "opdis", *render_options):
     """
     Creates an control flow graph from a binary file using opdis and graphviz.
     
@@ -44,6 +44,8 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     quiet_mode: If enabled, the program will not output anything except for the resulting graph, even when failing.
     
     output_format: The format of the output file. Can be png, gif, svg, svgz or dot.
+    
+    disassembly_driver: The disassembly driver to use.
     """
         
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
@@ -70,7 +72,10 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
 
         
     #Vérification de la validité des options
-    #TODO DisassemblerDriver
+    #disassembly_driver
+    if not disassembly_driver in disassembly_drivers:
+        outputManager.print_error("Unknown disassembly driver : " + disassembly_driver);
+        return;
     #render_engine
     if not render_engine in render_engines:
         outputManager.print_error("Unknown render engine : " + render_engine);
@@ -102,7 +107,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     #Traitement
     try:
         #Exécution du désassemblage
-        disassembly_driver = disassembly_drivers["opdis"]();
+        disassembly_driver = disassembly_drivers[disassembly_driver]();
         instructions_table, vma_instructions_table = disassembly_driver.disassemble(input_file);
                 
         #Création du graphe
