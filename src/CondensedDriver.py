@@ -10,12 +10,11 @@ class CondensedDriver(GraphDriver.GraphDriver):
         return "condensed";
         
     def create_graph(self, instructions_table, vma_instructions_table):
-        waiting_list = [];
+        waiting_list = {};
         i = 0;
         bloc = Bloc.Bloc(instructions_table[i].vma);
         bloc_origin = bloc;
         while(i <= len(instructions_table)-1):
-            i = i+1;
             cur_inst = instructions_table[i];
             if(super(CondensedDriver, self).is_jump(cur_inst)):
                 bloc2 = Bloc.Bloc(cur_inst.vma);
@@ -27,13 +26,14 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     bloc.addSon(bloc2);
                     bloc = bloc2;
                 else:
-                    if(cur_inst.ascii is "retq"): #TODO Changer
+                    if(cur_inst.ascii is "retq"): #TODO Changer le retq
                         bloc2 = Bloc.Bloc(cur_inst.vma);
                         bloc.addSon(bloc2);
                         bloc = bloc2;
                     else:
                         bloc.addInstruction(cur_inst);
-        graph= nx.DiGraph();
+            i = i+1;
+        graph = nx.DiGraph();
         return bloc_origin.get_graph(graph);
 
 

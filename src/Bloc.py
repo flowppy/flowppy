@@ -19,10 +19,10 @@ class Bloc(object):
         self.instruction = self.instruction + instruction.create_string() + "\n";
         
     def get_graph(self, graph):
-        if self.blocSonLeft is not None:
+        if self.blocSonLeft:
             graph.add_edge(self.instruction, self.blocSonLeft.instruction);
             self.blocSonLeft.get_graph(graph);
-        if self.blocSonRight is not None:
+        if self.blocSonRight:
             graph.add_edge(self.instruction, self.blocSonRight.instruction);
             self.blocSonRight.get_graph(graph);
         return graph;
