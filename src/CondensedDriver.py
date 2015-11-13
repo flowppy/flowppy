@@ -27,7 +27,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     bloc.addSon(bloc2);
                     bloc = bloc2;
                 else:
-                    if(cur_inst.ascii is "retq"):
+                    if(cur_inst.ascii is "retq"): #TODO Changer
                         bloc2 = Bloc.Bloc(cur_inst.vma);
                         bloc.addSon(bloc2);
                         bloc = bloc2;
@@ -35,3 +35,6 @@ class CondensedDriver(GraphDriver.GraphDriver):
                         bloc.addInstruction(cur_inst);
         graph= nx.DiGraph();
         return bloc_origin.get_graph(graph);
+
+
+
