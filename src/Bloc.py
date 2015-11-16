@@ -9,21 +9,22 @@ class Bloc(object):
         self.blocSonLeft = None;
         self.blocSonRight = None;
         
-    def setSon(self, bloc):
+    def addSon(self, bloc):
         if self.blocSonLeft is None:
-            self.blocSonRight = bloc; 
-        else:
-            self.blocSonLeft = bloc;
+            self.blocSonLeft = bloc; 
+        elif self.blocSonRight is None:
+            self.blocSonRight = bloc;
         
     def addInstruction(self, instruction):
         self.instruction = self.instruction + instruction.create_string() + "\n";
         
     def get_graph(self, graph):
-        if self.blocSonLeft:
+        if self.blocSonLeft is not None:
             graph = self.blocSonLeft.get_graph(graph);
             graph.add_edge(self.instruction, self.blocSonLeft.instruction);
-        if self.blocSonRight:
+        if self.blocSonRight is not None:
             graph = self.blocSonRight.get_graph(graph);
             graph.add_edge(self.instruction, self.blocSonRight.instruction);
+            
         return graph;
         
