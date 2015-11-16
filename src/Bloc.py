@@ -18,14 +18,6 @@ class Bloc(object):
     def addInstruction(self, instruction):
         self.instruction = self.instruction + instruction.create_string() + "\n";
         
-    def toString(self):
-        text = self.instruction;
-        if self.blocSonLeft:
-            text += self.blocSonLeft.instruction;
-        if self.blocSonRight:
-            text += self.blocSonRight.instruction;
-        return text;
-        
     def get_graph(self, graph):
         if self.blocSonLeft:
             graph2 = self.blocSonLeft.get_graph(graph);
