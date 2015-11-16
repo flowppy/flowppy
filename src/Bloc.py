@@ -20,10 +20,10 @@ class Bloc(object):
         
     def get_graph(self, graph):
         if self.blocSonLeft:
-            graph2 = self.blocSonLeft.get_graph(graph);
-            graph.add_edge(self.instruction, graph2);
+            graph = self.blocSonLeft.get_graph(graph);
+            graph.add_edge(self.instruction, self.blocSonLeft.instruction);
         if self.blocSonRight:
-            graph2 = self.blocSonRight.get_graph(graph);
-            graph.add_edge(self.instruction, graph2);
+            graph = self.blocSonRight.get_graph(graph);
+            graph.add_edge(self.instruction, self.blocSonRight.instruction);
         return graph;
         
