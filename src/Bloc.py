@@ -10,7 +10,7 @@ class Bloc(object):
         self.blocSonRight = None;
         
     def setSon(self, bloc):
-        if self.blocSonLeft is not None:
+        if self.blocSonLeft is None:
             self.blocSonRight = bloc; 
         else:
             self.blocSonLeft = bloc;
@@ -18,12 +18,20 @@ class Bloc(object):
     def addInstruction(self, instruction):
         self.instruction = self.instruction + instruction.create_string() + "\n";
         
+    def toString(self):
+        text = self.instruction;
+        if self.blocSonLeft:
+            text += self.blocSonLeft.instruction;
+        if self.blocSonRight:
+            text += self.blocSonRight.instruction;
+        return text;
+        
     def get_graph(self, graph):
         if self.blocSonLeft:
-            graph.add_edge(self.instruction, self.blocSonLeft.instruction);
-            self.blocSonLeft.get_graph(graph);
+            graph2 = self.blocSonLeft.get_graph(graph);
+            graph.add_edge(self.instruction, graph2);
         if self.blocSonRight:
-            graph.add_edge(self.instruction, self.blocSonRight.instruction);
-            self.blocSonRight.get_graph(graph);
+            graph2 = self.blocSonRight.get_graph(graph);
+            graph.add_edge(self.instruction, graph2);
         return graph;
         

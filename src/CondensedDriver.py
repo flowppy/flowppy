@@ -23,18 +23,21 @@ class CondensedDriver(GraphDriver.GraphDriver):
             else:
                 if(cur_inst.vma in waiting_list):
                     bloc2 = waiting_list[cur_inst.vma];
-                    bloc.addSon(bloc2);
+                    bloc.setSon(bloc2);
                     bloc = bloc2;
                 else:
                     if(cur_inst.ascii is "retq"): #TODO Changer le retq
                         bloc2 = Bloc.Bloc(cur_inst.vma);
-                        bloc.addSon(bloc2);
+                        bloc.setSon(bloc2);
                         bloc = bloc2;
                     else:
                         bloc.addInstruction(cur_inst);
             i = i+1;
+            
         graph = nx.DiGraph();
-        return bloc_origin.get_graph(graph);
+        graph = bloc_origin.get_graph(graph);
+        
+        return graph;
 
 
 
