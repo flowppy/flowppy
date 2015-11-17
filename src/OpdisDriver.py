@@ -10,7 +10,7 @@ class OpdisDriver(DisassemblyDriver.DisassemblyDriver):
     
     def get_jumps_regexes(self): 
         return [
-            "je?cxz|jpo|jn[abgl]e|j[abglp]e|jn?[abceglopsz]" #x86-64
+            "je?cxz|jpo|jn[abgl]e|j[abglp]e|jn?[abceglopsz]|jmpq" #x86-64
         ];
         
     def get_name():
