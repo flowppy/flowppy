@@ -25,5 +25,8 @@ class DisassemblyDriver(object):
     
     @abstractclassmethod.abstractclassmethod
     def get_name(): pass;
+    
+    @abstractmethod
+    def get_dependencies(self): pass;
 
         

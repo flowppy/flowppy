@@ -16,6 +16,11 @@ class OpdisDriver(DisassemblyDriver.DisassemblyDriver):
     def get_name():
         return "opdis";
         
+    def get_dependencies(self):
+        return [
+            "opdis"
+        ];
+        
     def disassemble(self, filename):
         #Exécution d'opdis et récupération du XML
         xml = subprocess.Popen(["opdis", "-f", "xml", "-E", filename], stdout=subprocess.PIPE).stdout.read();

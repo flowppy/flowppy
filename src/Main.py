@@ -51,13 +51,9 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
     
-    #Vérification de la présence d'opdis et de graphviz dans le PATH
-    if (shutil.which("opdis") is None):
-        outputManager.print_error("Unable to find opdis, is it installed ?");
-        return;
-        
+    #Vérification de la présence de graphviz dans le PATH
     if (shutil.which("dot") is None):
-        outputManager.print_error("Unable to find graphviz, is it installed ?");
+        outputManager.print_error("graphviz is required and could not be found, aborting.");
         return;
     
     #Chargement des drivers
@@ -109,6 +105,12 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         #Exécution du désassemblage
         disassembly_driver = disassembly_drivers[disassembly_driver]();
         instructions_table, vma_instructions_table = disassembly_driver.disassemble(input_file);
+        
+        #Vérification des dépendances
+        for dep in disassembly_driver.get_dependencies():  
+            if (shutil.which(dep) is None):
+                outputManager.print_error(dep + "is required and could not be found, aborting.");
+                return;
                 
         #Création du graphe
         graph_driver = graph_drivers[graph_type](outputManager, disassembly_driver);
