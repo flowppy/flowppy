@@ -8,33 +8,34 @@ Le type de graphe ainsi que le moteur utilisé pour désassembler sont abstraits
 Le programme se base sur plusieurs modules externes en Python (principalement `networkx`) ainsi que sur des utilitaires tels qu’`opdis` ou `graphviz` (liste détaillée plus bas).
 
 ##Fonctionnalités
-`Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
+    Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
+    
+    Creates an control flow graph from a binary file using opdis and graphviz.
+    
+    Arguments:
+      render-options...         The options to use when rendering the graph. See graphviz's "dot"
+                                manual for more details.
+    
+    Options:
+      -i, --input-file=STR      The binary file to create the graph from. Will use stdin if missing.
+                                (default: )
+      -o, --output-file=STR     The file to save the graph to. Will use stdout if missing. (default: )
+      -r, --render-engine=STR   The graphviz engine to use when rendering the graph. Can be "dot",
+                                "neato", "circo", "fdp", "sfdp" or "twopi". (default: dot)
+      -t, --graph-type=STR      The type of the final graph. Can be "regular" (one instruction per
+                                node) or "condensed" (multiple instructions per node, jumps and calls
+                                as edges). (default: regular)
+      -q, --quiet-mode          If enabled, the program will not output anything except for the
+                                resulting graph, even when failing.
+      -f, --output-format=STR   The format of the output file. Can be png, gif, svg, svgz or dot.
+                                (default: png)
+      -d, --disassembly-driver=STR
+                                The disassembly driver to use. The only driver currently supported is
+                                opdis. (default: opdis)
+    
+    Other actions:
+      -h, --help                Show the help 
 
-Creates an control flow graph from a binary file using opdis and graphviz.
-
-Arguments:
-  render-options...         The options to use when rendering the graph. See graphviz's "dot"
-                            manual for more details.
-
-Options:
-  -i, --input-file=STR      The binary file to create the graph from. Will use stdin if missing.
-                            (default: )
-  -o, --output-file=STR     The file to save the graph to. Will use stdout if missing. (default: )
-  -r, --render-engine=STR   The graphviz engine to use when rendering the graph. Can be "dot",
-                            "neato", "circo", "fdp", "sfdp" or "twopi". (default: dot)
-  -t, --graph-type=STR      The type of the final graph. Can be "regular" (one instruction per
-                            node) or "condensed" (multiple instructions per node, jumps and calls
-                            as edges). (default: regular)
-  -q, --quiet-mode          If enabled, the program will not output anything except for the
-                            resulting graph, even when failing.
-  -f, --output-format=STR   The format of the output file. Can be png, gif, svg, svgz or dot.
-                            (default: png)
-  -d, --disassembly-driver=STR
-                            The disassembly driver to use. The only driver currently supported is
-                            opdis. (default: opdis)
-                            
-Other actions:
-  -h, --help                Show the help`
 ##Exemples d'utilisation
 pass;
 
