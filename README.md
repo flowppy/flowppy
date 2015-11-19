@@ -82,5 +82,4 @@ Pour l'installer localement :
 `make dist`
 
 Pour l'installer sur le système :
-
 `sudo make install`
