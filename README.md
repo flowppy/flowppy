@@ -8,8 +8,7 @@ Le type de graphe ainsi que le moteur utilisé pour désassembler sont abstraits
 Le programme se base sur plusieurs modules externes en Python (principalement `networkx`) ainsi que sur des utilitaires tels qu’`opdis` ou `graphviz` (liste détaillée plus bas).
 
 ##Fonctionnalités
-`
-Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
+`Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
 
 Creates an control flow graph from a binary file using opdis and graphviz.
 
@@ -35,8 +34,7 @@ Options:
                             opdis. (default: opdis)
                             
 Other actions:
-  -h, --help                Show the help
-`
+  -h, --help                Show the help`
 ##Exemples d'utilisation
 pass;
 
