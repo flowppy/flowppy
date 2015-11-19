@@ -52,15 +52,15 @@ TODO: Mettre les exemples
 
 ##Dépendances
 Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
-* `clize`
-* `networkx`
-* `pydot2`
+* `clize` - utilisé pour parser les options en ligne de commande et pour générer le message d'aide
+* `networkx` - utilisé pour générer le graphe en interne
+* `pydot2` - utilisé pour effectuer l'exporation du graphe vers le format de `graphviz`
 
 Il y a également des dépendances externes obligatoires :
-* `graphviz`
+* `graphviz` - utilisé pour le rendu des graphes en images
 
 Enfin, des dépendances externes optionnelles selon le driver que vous voulez utiliser :
-* `opdis` - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
+* `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
 
 
 ##Installation
