@@ -64,4 +64,23 @@ Enfin, des dépendances externes optionnelles selon le driver que vous voulez ut
 
 
 ##Installation
-pass;
+Pour installer le programme, clonez le dépôt dans un dossier local. Vérifiez que vous avez Python 3.4 d'installé puis récupérez les modules via la commande :
+
+`sudo pip3 install clize networkx pydot2`
+
+Installez ensuite les dépendances externes :
+
+`sudo apt-get install graphviz`
+
+Et enfin opdis si vous souhaitez l'utiliser ; pour ce faire, allez sur [leur dépôt](https://github.com/mkfs/opdis) et suivez leurs instructions :
+
+    ./bootstrap
+    ./configure
+    make
+
+Pour l'installer localement :
+`make dist`
+
+Pour l'installer sur le système :
+
+`sudo make install`
