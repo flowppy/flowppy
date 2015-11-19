@@ -13,10 +13,10 @@ class RegularDriver(GraphDriver.GraphDriver):
         
         for i in range(len(instructions_table)):
             if (i != 0):
-                graph.add_edge(instructions_table[i-1].create_string(), instructions_table[i].create_string(), label = instructions_table[i].offset);
+                graph.add_edge(instructions_table[i-1].create_string(), instructions_table[i].create_string());
                 
             instruction = instructions_table[i];
             if super(RegularDriver, self).is_jump(instruction):
                 targetVma = instruction.operands[0].ascii;
-                graph.add_edge(instruction.create_string(), vma_instructions_table[int(targetVma, 0)].create_string(), label = vma_instructions_table[int(targetVma, 0)].offset);
+                graph.add_edge(instruction.create_string(), vma_instructions_table[int(targetVma, 0)].create_string());
         return graph;
