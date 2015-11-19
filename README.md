@@ -46,12 +46,22 @@ Dans l'optique de supporter plusieurs langages de programmation, le désassemble
 
 
 ##Exemples d'utilisation
-Des fichiers binairesd'exemples sont fournis dans le dossier `testbinaries` et peuvent être compilés via le script fourni à cet effet (nécessite `gcc`).
+Des fichiers binaires d'exemples sont fournis dans le dossier `testbinaries` et peuvent être compilés via le script fourni à cet effet (nécessite `gcc`).
 
 TODO: Mettre les exemples
 
 ##Dépendances
-pass;
+Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
+* `clize`
+* `networkx`
+* `pydot2`
+
+Il y a également des dépendances externes obligatoires :
+* `graphviz`
+
+Enfin, des dépendances externes optionnelles selon le driver que vous voulez utiliser :
+* `opdis` - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
+
 
 ##Installation
 pass;
