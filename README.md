@@ -48,7 +48,7 @@ Dans l'optique de supporter plusieurs langages de programmation, le désassemble
 ##Exemples d'utilisation
 Des fichiers binaires d'exemples sont fournis dans le dossier `testbinaries` et peuvent être compilés via le script fourni à cet effet (nécessite `gcc`).
 
-TODO: Mettre les exemples
+TODO: Mettre les exemples variés
 
 ##Dépendances
 Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
