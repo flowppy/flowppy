@@ -36,6 +36,13 @@ Le programme se base sur plusieurs modules externes en Python (principalement `n
     Other actions:
       -h, --help                Show the help 
 
+Le programme prend un fichier binaire en entrée (`--input-file`) et génère en sortie un graphe sous la forme d'une image ou d'un fichier `dot` (`--output-file`). Si rien n'est mis, le programme utilisera l'entrée et la sortie standard. Le format de sortie peut être précisé avec l'option `--output-format`. Si vous ne souhaitez pas afficher les potentielles erreurs, utilisez l'option `--quiet-mode`.
+
+Les options `--graph-type` et `--render-engine` permettent de personnaliser le rendu final, avec respectivement le type de graphe à produire (une ou plusieurs instructions par noeud) et le moteur de rendu à utiliser (voir la documentation de `graphviz` pour plus de détails).
+
+Dans l'optique de supporter plusieurs langages de programmation, le désassembleur a été abstrait, même si il n'y a qu'`opdis` de supporté pour l'instant. Il peut néanmoins être changé à l'aide de `--disassembly-driver`.
+
+
 ##Exemples d'utilisation
 pass;
 
