@@ -72,7 +72,7 @@ Installez ensuite les dépendances externes :
 
 `sudo apt-get install graphviz`
 
-Et enfin opdis si vous souhaitez l'utiliser ; pour ce faire, allez sur [leur dépôt](https://github.com/mkfs/opdis) et suivez leurs instructions :
+Et enfin `opdis` si vous souhaitez l'utiliser ; pour ce faire, allez sur [leur dépôt](https://github.com/mkfs/opdis) et suivez leurs instructions :
 
     ./bootstrap
     ./configure
