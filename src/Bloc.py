@@ -7,6 +7,7 @@ class Bloc(object):
         self.instruction = [];
         self.passedR = False;
         self.passedL = False;
+        #ajout d'un attribut de Graphdriver
         
         self.blocSonLeft = None;
         self.blocSonRight = None;
@@ -57,9 +58,13 @@ class Bloc(object):
 
 
     def instructionStr(self):
+        #mettre un if si l'instruction conerne un jumps pour concaténer le offset et l'adresse cible du jump.
+        #à voir si on peut appeler la methode is_jump() à partir d'ici
         str = "";
         for inst in self.instruction:
+            #if(self.driver.is_jump(inst)){ ajout du offset}
             str = str  + inst.create_string()+ "\l";
+            
         return str;
     def replaceSon(self, bloc1, bloc2):
         if self.blocSonLeft == bloc2:
@@ -76,11 +81,11 @@ class Bloc(object):
         if self.blocSonLeft is not None and not self.passedL:
             self.passedL = True;
             graph = self.blocSonLeft.get_graph(graph);
-            graph.add_edge(self.instructionStr(), self.blocSonLeft.instructionStr());
+            graph.add_edge(self.instructionStr(), self.blocSonLeft.instructionStr(), label = self.blocSonLeft.instruction[0].offset);
         if self.blocSonRight is not None and not self.passedR:
             self.passedR = True;
             graph = self.blocSonRight.get_graph(graph);
-            graph.add_edge(self.instructionStr(), self.blocSonRight.instructionStr());
+            graph.add_edge(self.instructionStr(), self.blocSonRight.instructionStr(), label = self.blocSonRight.instruction[0].offset);
         
             
         return graph;

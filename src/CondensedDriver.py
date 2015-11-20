@@ -3,8 +3,7 @@
 import GraphDriver;
 import networkx as nx;
 import Bloc;
-import sys
-sys.setrecursionlimit(10000);
+import Instruction;
 
 class CondensedDriver(GraphDriver.GraphDriver):
     
@@ -27,14 +26,14 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     bloc_cur.addInstruction(cur_inst);
                     bloc_tmp = bloc_origin.getBloc(cur_inst.operands[0].ascii);
                     j=0;
-                    print(j);
-                    print(bloc_tmp.instruction[j]);
+                    #print(j);
+                    #print(bloc_tmp.instruction[j]);
                     Bloc_mid1 = Bloc.Bloc(bloc_tmp.instruction[j].vma);
                     while j<len(bloc_tmp.instruction):
                         Bloc_mid1.addInstruction(bloc_tmp.instruction[j]);
                         j=j+1;
                     bloc_origin.getParent(bloc_tmp).replaceSon(Bloc_mid1, bloc_tmp);
-                    print(Bloc_mid1.instructionStr());
+                    #print(Bloc_mid1.instructionStr());
                     bloc_cur.addSon(Bloc_mid1);
                     Bloc_mid1.addSon(bloc_tmp.getSon());
                     Bloc_tmp=Bloc.Bloc(instructions_table[i+1]);
@@ -47,7 +46,15 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     #print(int(cur_inst.operands[0].ascii, 0));
                     waiting_list[int(cur_inst.operands[0].ascii, 0)] = bloc_cur;
                     bloc_cur = Bloc_tmp;
-              
+            """
+            elif(cur_inst.mnemonic == "callq"): #Tentative de detection des calls de fonction
+                    bloc_cur.addInstruction(cur_inst); 
+                    bloc_tmp = Bloc.Bloc("nawak");
+                    bloc_tmp.addInstruction(Instruction.Instruction(cur_inst.operands[0].ascii, "0x0", " out function", "function"));
+                    bloc_cur.addSon(bloc_tmp);
+                    bloc_cur = Bloc.Bloc("");
+                    bloc_tmp.addSon(bloc_cur);
+            """
             else:
                 if(int(cur_inst.vma,0) in waiting_list):
                     #print(waiting_list[int(cur_inst.vma, 0)]);
@@ -55,6 +62,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     waiting_list[int(cur_inst.vma, 0)].addSon(bloc_tmp);
                     bloc_cur.addSon(bloc_tmp);
                     bloc_cur = bloc_tmp;
+                
                 else:
                     bloc_cur.addInstruction(cur_inst);
            
