@@ -12,4 +12,4 @@ class Instruction:
         self.operands.append(operand);
         
     def create_string(self):
-        return self.offset + " - " + self.ascii;
+        return "[" + self.offset + " (" + self.vma + ")] " + self.ascii;
