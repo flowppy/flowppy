@@ -20,6 +20,8 @@ import CondensedDriver;
 import DisassemblyDriver;
 import OpdisDriver;
 
+
+
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
 output_formats = ["png", "gif", "svg", "svgz", "dot"];
@@ -47,7 +49,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     
     disassembly_driver: The disassembly driver to use. The only driver currently supported is opdis.
     """
-        
+    sys.setrecursionlimit(26040)
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
     

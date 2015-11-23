@@ -57,13 +57,24 @@ class Bloc(object):
             return self;
 
 
-    def instructionStr(self):
+    def instructionStr(self, driver):
         #mettre un if si l'instruction conerne un jumps pour concaténer le offset et l'adresse cible du jump.
         #à voir si on peut appeler la methode is_jump() à partir d'ici
         str = "";
-        for inst in self.instruction:
+        line =0;
+        for i in range (0,len(self.instruction)-1):
             #if(self.driver.is_jump(inst)){ ajout du offset}
-            str = str  + inst.create_string()+ "\l";
+            str = str  + self.instruction[i].create_string()+ "\l";
+            line = 1;
+        if len(self.instruction) >0:
+            if not (driver.is_jump(self.instruction[len(self.instruction)-1])) and not self.instruction[len(self.instruction)-1].mnemonic == "callq":
+                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\l";
+    
+            if(line==0):
+                    str= self.instruction[0].ascii
+        else:
+            str = "\\<nop\\>"
+      
             
         return str;
     def replaceSon(self, bloc1, bloc2):
@@ -76,17 +87,45 @@ class Bloc(object):
         elif self.blocSonRight is None:
             self.blocSonRight = bloc1;
         
-    def get_graph(self, graph):
+    def get_graph(self, graph, driver):
         #Passed mark
-        if self.blocSonLeft is not None and not self.passedL:
-            self.passedL = True;
-            graph = self.blocSonLeft.get_graph(graph);
-            graph.add_edge(self.instructionStr(), self.blocSonLeft.instructionStr(), label = self.blocSonLeft.instruction[0].offset);
-        if self.blocSonRight is not None and not self.passedR:
-            self.passedR = True;
-            graph = self.blocSonRight.get_graph(graph);
-            graph.add_edge(self.instructionStr(), self.blocSonRight.instructionStr(), label = self.blocSonRight.instruction[0].offset);
+        #inst_length =len(self.instruction)-2;
+        label_str=" ";
+        label_str2=" ";
         
+        
+        if self.blocSonLeft is not None and not self.passedL:
+            """
+            if driver.is_jump(self.instruction[len(self.instruction)-1]) :
+
+                if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonLeft.instruction[0].vma,0):
+                
+                    label_str = self.instruction[len(self.instruction)-1].create_string();
+            elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
+                label_str = self.instruction[len(self.instruction)-1].create_string();
+            """
+            self.passedL = True;
             
+            graph = self.blocSonLeft.get_graph(graph, driver);
+            
+            graph.add_edge(self.instructionStr(driver), self.blocSonLeft.instructionStr(driver), label = label_str);
+            
+        if self.blocSonRight is not None and not self.passedR:
+            """
+            if driver.is_jump(self.instruction[len(self.instruction)-1]):
+
+                if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonRight.instruction[0].vma,0):
+                    label_str2 = self.instruction[len(self.instruction)-1].create_string();
+            elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
+                label_str2 = self.instruction[len(self.instruction)-1].create_string();
+            """
+            self.passedR = True;
+            
+            graph = self.blocSonRight.get_graph(graph, driver);
+            
+            graph.add_edge(self.instructionStr(driver), self.blocSonRight.instructionStr(driver), label = label_str2);
+        
+      
+        
         return graph;
         

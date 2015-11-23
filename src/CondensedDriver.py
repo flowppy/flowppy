@@ -5,16 +5,20 @@ import networkx as nx;
 import Bloc;
 import Instruction;
 
+
 class CondensedDriver(GraphDriver.GraphDriver):
     
     def get_name():
         return "condensed";
         
     def create_graph(self, instructions_table, vma_instructions_table):
+        #start = Bloc.Bloc("0x0");
+        #start.addInstruction(Instruction.Instruction("-0x1", "-0x1", "\\<start\\>", "\\<start\\>"));
         waiting_list = {};
         i = 0;
         bloc_cur = Bloc.Bloc(instructions_table[i].vma);
         bloc_origin = bloc_cur;
+        #start.addSon(bloc_cur);
         
         while(i <= len(instructions_table)-1):
             cur_inst = instructions_table[i];
@@ -22,7 +26,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
             
             if(super(CondensedDriver, self).is_jump(cur_inst)):
                 #condition pour faire remonter l'adresse cible d'un jump vers un bloc déjà créé
-                if(int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
+                if(False):#int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
                     bloc_cur.addInstruction(cur_inst);
                     bloc_tmp = bloc_origin.getBloc(cur_inst.operands[0].ascii);
                     j=0;
@@ -46,15 +50,16 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     #print(int(cur_inst.operands[0].ascii, 0));
                     waiting_list[int(cur_inst.operands[0].ascii, 0)] = bloc_cur;
                     bloc_cur = Bloc_tmp;
-            """
+                    
             elif(cur_inst.mnemonic == "callq"): #Tentative de detection des calls de fonction
                     bloc_cur.addInstruction(cur_inst); 
                     bloc_tmp = Bloc.Bloc("nawak");
-                    bloc_tmp.addInstruction(Instruction.Instruction(cur_inst.operands[0].ascii, "0x0", " out function", "function"));
+                    str = "\\<function at "+ cur_inst.operands[0].ascii + "\\>";
+                    bloc_tmp.addInstruction(Instruction.Instruction("-0x1 ", "0x0", str, "function"));
                     bloc_cur.addSon(bloc_tmp);
                     bloc_cur = Bloc.Bloc("");
                     bloc_tmp.addSon(bloc_cur);
-            """
+                
             else:
                 if(int(cur_inst.vma,0) in waiting_list):
                     #print(waiting_list[int(cur_inst.vma, 0)]);
@@ -67,10 +72,14 @@ class CondensedDriver(GraphDriver.GraphDriver):
                     bloc_cur.addInstruction(cur_inst);
            
             i = i+1;
+            
+        #end = Bloc.Bloc("0xFFFF");
+        #end.addInstruction(Instruction.Instruction("-0x1", "-0x1", "\\<end\\>", "\\<end\\>"));
+        #bloc_cur.addSon(end);
         graph = nx.DiGraph();
         #essai avec historique
         historique = [];
-        graph = bloc_origin.get_graph(graph);
+        graph = bloc_origin.get_graph(graph, self);
         
         return graph;
 
