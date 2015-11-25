@@ -11,44 +11,23 @@ class Bloc(object):
         
         self.blocSonLeft = None;
         self.blocSonRight = None;
+        self.dad = None;
+        self.is_clean = False;
         
     def addSon(self, bloc):
         if self.blocSonLeft is None:
-            self.blocSonLeft = bloc; 
+            self.blocSonLeft = bloc;
+            self.blocSonLeft.dad = self;
         elif self.blocSonRight is None:
             self.blocSonRight = bloc;
+            self.blocSonRight.dad = self;
         
     def addInstruction(self, instruction):
         self.instruction.append(instruction);
-        
-    def containsInstruction(self, instruction):
-        for xx in self.instruction:
-            if(int(xx.vma,0) == int(instruction,0)):
-                return True;
-        return False;
-    
-    def getParent(self, bloc_nimp):
-        if self.blocSonLeft == bloc_nimp:
-            return self;
-        if self.blocSonRight == bloc_nimp:
-            return self;
-        else:
-            if self.blocSonLeft is not None:
-                return self.blocSonLeft.getParent(bloc_nimp);
-            if self.blocSonRight is not None:
-                return self.blocSonRight.getParent(bloc_nimp);
-            return self;
-            
-    def getBloc(self, instruction):
-        if(self.containsInstruction(instruction)):
-            return self;
-        else:
-            if self.blocSonLeft is not None:
-                return self.blocSonLeft.getBloc(instruction)
-            if self.blocSonRight is not None:
-                return self.blocSonRight.getBloc(instruction)
-            return self;
-            
+
+    def getParent(self):
+        return self.dad;
+
     def getSon(self):
             if self.blocSonLeft is not None:
                 return self.blocSonLeft;
@@ -73,10 +52,18 @@ class Bloc(object):
             if(line==0):
                     str= self.instruction[0].ascii
         else:
-            str = "\\<nop\\>"
+            self.dad.replaceSon(self,self.blocSonLeft);
       
             
         return str;
+        
+    def getVMAInstruction(self):
+        instruction=[];
+        for xx in self.instruction:
+            instruction.append(int(xx.vma,0));
+            
+        return instruction;
+            
     def replaceSon(self, bloc1, bloc2):
         if self.blocSonLeft == bloc2:
             self.blocSonLeft = bloc1; 
@@ -92,40 +79,59 @@ class Bloc(object):
         #inst_length =len(self.instruction)-2;
         label_str=" ";
         label_str2=" ";
-        
+        """
+        Condition première
+        """
         
         if self.blocSonLeft is not None and not self.passedL:
-            """
             if driver.is_jump(self.instruction[len(self.instruction)-1]) :
-
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonLeft.instruction[0].vma,0):
-                
+            
                     label_str = self.instruction[len(self.instruction)-1].create_string();
             elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
                 label_str = self.instruction[len(self.instruction)-1].create_string();
-            """
+            elif not(len(self.instruction)>0):
+                self.dad.replaceSon(self,self.blocSonLeft);
+                
+            
             self.passedL = True;
             
             graph = self.blocSonLeft.get_graph(graph, driver);
             
             graph.add_edge(self.instructionStr(driver), self.blocSonLeft.instructionStr(driver), label = label_str);
-            
+        """
+        Condition seconde
+        """
         if self.blocSonRight is not None and not self.passedR:
-            """
             if driver.is_jump(self.instruction[len(self.instruction)-1]):
-
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonRight.instruction[0].vma,0):
+                    
                     label_str2 = self.instruction[len(self.instruction)-1].create_string();
-            elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
+            elif self.instruction[len(self.instruction)-1].mnemonic == "callq":
                 label_str2 = self.instruction[len(self.instruction)-1].create_string();
-            """
+            elif not(len(self.instruction)>0):
+                self.dad.replaceSon(self,self.blocSonLeft);
+            
             self.passedR = True;
             
             graph = self.blocSonRight.get_graph(graph, driver);
             
             graph.add_edge(self.instructionStr(driver), self.blocSonRight.instructionStr(driver), label = label_str2);
-        
-      
-        
         return graph;
+        
+        
+        
+    def is_empty(self):
+        return (len(self.instruction) == 0);
+        
+    def clean_empty_bloc(self):
+        if(self.is_empty()):
+            if(self.blocSonLeft):
+                self.dad.replaceSon(self, self.blocSonLeft);
+        self.is_clean = True;
+        if(self.blocSonLeft):
+            self.blocSonLeft.clean_empty_bloc();
+        if(self.blocSonRight):
+            self.blocSonRight.clean_empty_bloc();
+        
         

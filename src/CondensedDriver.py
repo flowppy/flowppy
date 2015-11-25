@@ -12,13 +12,16 @@ class CondensedDriver(GraphDriver.GraphDriver):
         return "condensed";
         
     def create_graph(self, instructions_table, vma_instructions_table):
-        #start = Bloc.Bloc("0x0");
-        #start.addInstruction(Instruction.Instruction("-0x1", "-0x1", "\\<start\\>", "\\<start\\>"));
         waiting_list = {};
+        classed_list = {};
         i = 0;
-        bloc_cur = Bloc.Bloc(instructions_table[i].vma);
-        bloc_origin = bloc_cur;
-        #start.addSon(bloc_cur);
+        start = Instruction.Instruction("-0x1", "-0x1", "\\<start\\>", "\\<start\\>")
+        blocStart = Bloc.Bloc(start.vma);
+        blocStart.addInstruction(start);
+        bloc_cur = Bloc.Bloc(instructions_table[0].vma);
+        bloc_origin = blocStart;
+        blocStart.addSon(bloc_cur);
+
         
         while(i <= len(instructions_table)-1):
             cur_inst = instructions_table[i];
@@ -27,32 +30,52 @@ class CondensedDriver(GraphDriver.GraphDriver):
             if(super(CondensedDriver, self).is_jump(cur_inst)):
                 #condition pour faire remonter l'adresse cible d'un jump vers un bloc déjà créé
                 if(False):#int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
+                    # DONE utilisation d'une table de hachage. Maintenant tu travaille l'algo pour les retQ xD
                     bloc_cur.addInstruction(cur_inst);
-                    bloc_tmp = bloc_origin.getBloc(cur_inst.operands[0].ascii);
-                    j=0;
-                    #print(j);
-                    #print(bloc_tmp.instruction[j]);
-                    Bloc_mid1 = Bloc.Bloc(bloc_tmp.instruction[j].vma);
-                    while j<len(bloc_tmp.instruction):
-                        Bloc_mid1.addInstruction(bloc_tmp.instruction[j]);
-                        j=j+1;
-                    bloc_origin.getParent(bloc_tmp).replaceSon(Bloc_mid1, bloc_tmp);
-                    #print(Bloc_mid1.instructionStr());
-                    bloc_cur.addSon(Bloc_mid1);
-                    Bloc_mid1.addSon(bloc_tmp.getSon());
-                    Bloc_tmp=Bloc.Bloc(instructions_table[i+1]);
-                    bloc_cur.addSon(Bloc_tmp);
-                    bloc_cur=Bloc_tmp;
+                    classed_list[int(cur_inst.vma, 0)] = bloc_cur;
+                    bloc_tmp = classed_list[int(cur_inst.operands[0].ascii, 0)];
+                    
+                    if not len(bloc_tmp.instruction)==0:
+                        
+                        Bloc_mid1 = Bloc.Bloc("Bloc1");
+                        Bloc_mid2 = Bloc.Bloc("Bloc2");
+                        if int(cur_inst.operands[0].ascii,0) in bloc_tmp.getVMAInstruction():
+                            instructionList= bloc_tmp.getVMAInstruction();
+                            i=0;
+                            while (not (int(bloc_tmp.instruction[i].vma,0) == int(cur_inst.operands[0].ascii,0))) :
+                                Bloc_mid1.addSon(bloc_tmp.instruction[i]);
+                                i=i+1;
+                            list1 = bloc_tmp.instruction[:i-1];
+                            list2 = bloc_tmp.instruction[len(bloc_tmp.instruction)-(i-1):];
+                            for xl1 in list1:
+                                Bloc_mid1.addInstruction(xl1);
+                            for xl2 in list1:
+                                Bloc_mid2.addInstruction(xl2);
+                            bloc_tmp.getParent().addSon(Bloc_mid1);
+                            Bloc_mid1.addSon(Bloc_mid2)
+                            bloc_cur.addSon(Bloc_mid2);
+                            Bloc_mid2.addSon(bloc_tmp.getSon());
+                           
+                            
+                            Bloc_tmp=Bloc.Bloc( instructions_table[i]);
+                            bloc_cur.addSon(Bloc_tmp);
+                            classed_list[int(cur_inst.vma, 0)] = bloc_cur;
+                            waiting_list[int(cur_inst.operands[0].ascii, 0)] = bloc_cur;
+                            bloc_cur = Bloc_tmp;
+                        else: 
+                            bloc_cur = Bloc_tmp;
+
                 else:
                     bloc_cur.addInstruction(cur_inst);
+                    classed_list[int(cur_inst.vma, 0)] = bloc_cur;
                     Bloc_tmp=Bloc.Bloc( instructions_table[i]);
                     bloc_cur.addSon(Bloc_tmp);
-                    #print(int(cur_inst.operands[0].ascii, 0));
                     waiting_list[int(cur_inst.operands[0].ascii, 0)] = bloc_cur;
                     bloc_cur = Bloc_tmp;
                     
-            elif(cur_inst.mnemonic == "callq"): #Tentative de detection des calls de fonction
+            elif(cur_inst.mnemonic == "callq"): #Detection des calls de fonction
                     bloc_cur.addInstruction(cur_inst); 
+                    classed_list[int(cur_inst.vma, 0)] = bloc_cur;
                     bloc_tmp = Bloc.Bloc("nawak");
                     str = "\\<function at "+ cur_inst.operands[0].ascii + "\\>";
                     bloc_tmp.addInstruction(Instruction.Instruction("-0x1 ", "0x0", str, "function"));
@@ -63,6 +86,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
             else:
                 if(int(cur_inst.vma,0) in waiting_list):
                     #print(waiting_list[int(cur_inst.vma, 0)]);
+                    classed_list[int(cur_inst.vma, 0)] = bloc_cur;
                     bloc_tmp=Bloc.Bloc(cur_inst);
                     waiting_list[int(cur_inst.vma, 0)].addSon(bloc_tmp);
                     bloc_cur.addSon(bloc_tmp);
@@ -70,15 +94,11 @@ class CondensedDriver(GraphDriver.GraphDriver):
                 
                 else:
                     bloc_cur.addInstruction(cur_inst);
-           
+                    classed_list[int(cur_inst.vma, 0)] = bloc_cur;
             i = i+1;
             
-        #end = Bloc.Bloc("0xFFFF");
-        #end.addInstruction(Instruction.Instruction("-0x1", "-0x1", "\\<end\\>", "\\<end\\>"));
-        #bloc_cur.addSon(end);
+        bloc_origin.clean_empty_bloc();
         graph = nx.DiGraph();
-        #essai avec historique
-        historique = [];
         graph = bloc_origin.get_graph(graph, self);
         
         return graph;
