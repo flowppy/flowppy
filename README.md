@@ -83,3 +83,11 @@ Pour l'installer localement :
 
 Pour l'installer sur le système :
 `sudo make install`
+
+##Pour les développeurs
+
+Si vous souhaitez étendre le programme, libre à vous d'ajouter les drivers adéquats et de proposer une pull request. Vous pouvez actuellement ajouter deux types de drivers (consultez le wiki pour connaître la spécification des classes à étendre) :
+* GraphDriver, le driver décrivant le type de graphe à créer, il prend en paramètres la table des instructions et retourne un graphe
+* DisassemblyDriver, le driver permettant le désassemblage d'un fichier, il prend en entrée un fichier et retourne une table des paramètres ainsi qu'une expression régulière pour connaître si une instruction est un branchement
+
+Pour ajouter un driver, vous n'avez qu'à créer une nouvelle classe étendant de la bonne superclasse, puis importez la dans le fichier `Main.py`. Le nouveau driver sera chargé automatiquement, il n'y a rien besoin de faire de plus.
