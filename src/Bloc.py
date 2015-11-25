@@ -65,6 +65,8 @@ class Bloc(object):
         return instruction;
             
     def replaceSon(self, bloc1, bloc2):
+        #bloc1 is the future new son of the current bloc
+        #bloc2 is the the bloc to replace
         if self.blocSonLeft == bloc2:
             self.blocSonLeft = bloc1; 
         elif self.blocSonRight == bloc2:
@@ -96,6 +98,7 @@ class Bloc(object):
             
             self.passedL = True;
             
+            
             graph = self.blocSonLeft.get_graph(graph, driver);
             
             graph.add_edge(self.instructionStr(driver), self.blocSonLeft.instructionStr(driver), label = label_str);
@@ -125,13 +128,14 @@ class Bloc(object):
         return (len(self.instruction) == 0);
         
     def clean_empty_bloc(self):
-        if(self.is_empty()):
-            if(self.blocSonLeft):
-                self.dad.replaceSon(self, self.blocSonLeft);
-        self.is_clean = True;
-        if(self.blocSonLeft):
-            self.blocSonLeft.clean_empty_bloc();
-        if(self.blocSonRight):
-            self.blocSonRight.clean_empty_bloc();
+        if(not self.is_clean):
+            if(self.is_empty()):
+                if(self.blocSonLeft is not None):
+                    self.dad.replaceSon(self.blocSonLeft,self);
+            self.is_clean = True;
+            if(self.blocSonLeft is not None):
+                self.blocSonLeft.clean_empty_bloc();
+            if(self.blocSonRight):
+                self.blocSonRight.clean_empty_bloc();
         
         

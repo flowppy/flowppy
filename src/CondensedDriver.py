@@ -29,7 +29,7 @@ class CondensedDriver(GraphDriver.GraphDriver):
             
             if(super(CondensedDriver, self).is_jump(cur_inst)):
                 #condition pour faire remonter l'adresse cible d'un jump vers un bloc déjà créé
-                if(False):#int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
+                if(int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
                     # DONE utilisation d'une table de hachage. Maintenant tu travaille l'algo pour les retQ xD
                     bloc_cur.addInstruction(cur_inst);
                     classed_list[int(cur_inst.vma, 0)] = bloc_cur;
@@ -43,7 +43,6 @@ class CondensedDriver(GraphDriver.GraphDriver):
                             instructionList= bloc_tmp.getVMAInstruction();
                             i=0;
                             while (not (int(bloc_tmp.instruction[i].vma,0) == int(cur_inst.operands[0].ascii,0))) :
-                                Bloc_mid1.addSon(bloc_tmp.instruction[i]);
                                 i=i+1;
                             list1 = bloc_tmp.instruction[:i-1];
                             list2 = bloc_tmp.instruction[len(bloc_tmp.instruction)-(i-1):];
