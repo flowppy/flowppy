@@ -1,6 +1,7 @@
 opdis
 bin/
 *.png
+!images/*.png
 *.xml
 *.dot
 src/__pycache__/
