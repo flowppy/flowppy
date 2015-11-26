@@ -9,6 +9,14 @@ Le type de graphe ainsi que le moteur utilisé pour désassembler sont abstraits
 
 Le programme se base sur plusieurs modules externes en Python (principalement `networkx`) ainsi que sur des utilitaires tels qu’`opdis` ou `graphviz` (liste détaillée plus bas).
 
+###Améliorations futures
+* interface graphique dynamique
+* version intégrée à un site web
+* exécution pas à pas liée au graphe
+* gestion des fonctions avec une pile
+* extraction des données du SVG pour obtenir le placement des noeuds
+* écrire des drivers pour d'autres langages : Java, C#, Smali...
+
 ##Fonctionnalités
     Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
     
