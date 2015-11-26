@@ -30,6 +30,7 @@ output_formats = ["png", "gif", "svg", "svgz", "dot"];
 @annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f", disassembly_driver = "d")
 @autokwoargs
 def main(input_file = "", output_file = "", output_format = "png", render_engine = "dot", graph_type = "regular", quiet_mode = False, disassembly_driver = "opdis", *render_options):
+    #Détail des options pour clize
     """
     Creates an control flow graph from a binary file using opdis and graphviz.
     
@@ -49,7 +50,6 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     
     disassembly_driver: The disassembly driver to use. The only driver currently supported is opdis.
     """
-    sys.setrecursionlimit(26040)
     #Création de l'OutputManager qui gère la sortie standard (erreurs, données)
     outputManager = OutputManager.OutputManager(quiet_mode);
     
@@ -132,7 +132,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
                 shutil.copyfile(dot_file.name, output_file);
             else:
                 #On convertit l'image là où il veut
-                output = render_and_read_graph(render_engine, output_format, dot_file.name);
+                output = render_and_read_graph(render_engine, render_options, output_format, dot_file.name);
                 image = open(output_file, 'wb');
                 image.write(output);
                 image.close();
@@ -140,18 +140,23 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         else:
             #On veut dans stdout
             #On convertit le .dot temporaire dans stdout
-            sys.stdout.buffer.write(render_and_read_graph(render_engine, output_format, dot_file.name));
+            sys.stdout.buffer.write(render_and_read_graph(render_engine, render_options, output_format, dot_file.name));
             sys.stdout.flush();
               
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
 
 #Méthode qui exécute le moteur de rendu et affiche le résultat dans stdout
-def create_render_graph_subprocess(render_engine, output_format, dot_file):
-    return subprocess.Popen([render_engine, "-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-T" + output_format, dot_file], stderr=subprocess.DEVNULL, stdout=subprocess.PIPE);
+def create_render_graph_subprocess(render_engine, render_options, output_format, dot_file):
+    render_command = [];
+    render_command.append(render_engine);
+    render_command += render_options;
+    render_command += ["-Gstart=42", "-Goverlap=false", "-Gsplines=true", "-Nshape=box", "-T" + output_format, dot_file];
+    return subprocess.Popen(render_command, stderr=subprocess.DEVNULL, stdout=subprocess.PIPE);
     
-def render_and_read_graph(render_engine, output_format, dot_file):
-    return create_render_graph_subprocess(render_engine, output_format, dot_file).stdout.read();
+#Lit le rendu de stdout dans un string
+def render_and_read_graph(render_engine, render_options, output_format, dot_file):
+    return create_render_graph_subprocess(render_engine, render_options, output_format, dot_file).stdout.read();
 
 #Méthode pour créer tous les dossiers parents d'un fichier
 def makedirs(filename):
