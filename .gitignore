@@ -5,3 +5,4 @@ bin/
 *.xml
 *.dot
 src/__pycache__/
+*.pyc

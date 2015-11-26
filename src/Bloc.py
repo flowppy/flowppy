@@ -14,6 +14,8 @@ class Bloc(object):
         self.dad = None;
         self.is_clean = False;
         
+        
+        #Ajout d'un fils au noeud courant
     def addSon(self, bloc):
         if self.blocSonLeft is None:
             self.blocSonLeft = bloc;
@@ -22,12 +24,16 @@ class Bloc(object):
             self.blocSonRight = bloc;
             self.blocSonRight.dad = self;
         
+        #Ajout d'une instruction au bloc courant
     def addInstruction(self, instruction):
         self.instruction.append(instruction);
 
+        #getter de Dad
     def getParent(self):
         return self.dad;
-
+        
+        
+        #getter de fils (le premier)
     def getSon(self):
             if self.blocSonLeft is not None:
                 return self.blocSonLeft;
@@ -35,10 +41,8 @@ class Bloc(object):
                 return self.blocSonRight;
             return self;
 
-
+    #Création des étiquettes d'instruction avec prise en charge des blocs artificiels start et end, plus génération des blocs fonctions, réponse aux callq
     def instructionStr(self, driver):
-        #mettre un if si l'instruction conerne un jumps pour concaténer le offset et l'adresse cible du jump.
-        #à voir si on peut appeler la methode is_jump() à partir d'ici
         str = "";
         line =0;
         for i in range (0,len(self.instruction)-1):
@@ -57,6 +61,7 @@ class Bloc(object):
             
         return str;
         
+        #Getter tableau d'instructions
     def getVMAInstruction(self):
         instruction=[];
         for xx in self.instruction:
@@ -64,9 +69,10 @@ class Bloc(object):
             
         return instruction;
             
+         #Methode de remplacement d'un fils du bloc courant   
     def replaceSon(self, bloc1, bloc2):
-        #bloc1 is the future new son of the current bloc
-        #bloc2 is the the bloc to replace
+        #bloc1 est le nouveau fils
+        #bloc2 est le fils a remplacer
         if self.blocSonLeft == bloc2:
             self.blocSonLeft = bloc1; 
         elif self.blocSonRight == bloc2:
@@ -76,13 +82,17 @@ class Bloc(object):
         elif self.blocSonRight is None:
             self.blocSonRight = bloc1;
         
+        
+        #Méthode de création du graph
     def get_graph(self, graph, driver):
         #Passed mark
-        #inst_length =len(self.instruction)-2;
         label_str=" ";
         label_str2=" ";
         """
-        Condition première
+        Condition Gauche:
+        
+        Ici, travail recursif sur l'arbre, meme chose du coté droit. Condition pour eviter de tourner infinimment dans l'arbre,
+        et pour que les etiquettes de jump n'apparaissent que sur les liens concernés.
         """
         
         if self.blocSonLeft is not None and not self.passedL:
@@ -101,9 +111,9 @@ class Bloc(object):
             
             graph = self.blocSonLeft.get_graph(graph, driver);
             
-            graph.add_edge(self.instructionStr(driver), self.blocSonLeft.instructionStr(driver), label = label_str);
+            graph.add_edge("\"" + self.instructionStr(driver)+ "\"" ,"\"" + self.blocSonLeft.instructionStr(driver)+ "\"", label = label_str);
         """
-        Condition seconde
+        Condition Droite
         """
         if self.blocSonRight is not None and not self.passedR:
             if driver.is_jump(self.instruction[len(self.instruction)-1]):
@@ -116,26 +126,31 @@ class Bloc(object):
                 self.dad.replaceSon(self,self.blocSonLeft);
             
             self.passedR = True;
-            
             graph = self.blocSonRight.get_graph(graph, driver);
             
-            graph.add_edge(self.instructionStr(driver), self.blocSonRight.instructionStr(driver), label = label_str2);
+            graph.add_edge("\"" + self.instructionStr(driver)+ "\"", "\"" + self.blocSonRight.instructionStr(driver) + "\"", label = label_str2);
         return graph;
         
         
-        
+        #Verification du contenu du bloc courant
     def is_empty(self):
         return (len(self.instruction) == 0);
         
+        # Nettoyage du graphe pour supprimer les blocs vides
+        #TODO Handle delete of "ghost" blocs
     def clean_empty_bloc(self):
         if(not self.is_clean):
             if(self.is_empty()):
                 if(self.blocSonLeft is not None):
                     self.dad.replaceSon(self.blocSonLeft,self);
+                else:
+                     self.dad.replaceSon(self.blocSonRight,self);
             self.is_clean = True;
+            if(self.dad is None):
+                if(self.blocSonLeft is None and self.blocSonRight is None):
+                    self = None;
             if(self.blocSonLeft is not None):
                 self.blocSonLeft.clean_empty_bloc();
-            if(self.blocSonRight):
+            if(self.blocSonRight is not None):
                 self.blocSonRight.clean_empty_bloc();
-        
-        
+            

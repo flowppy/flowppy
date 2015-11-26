@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+#"Hack" permettant d'avoir des méthodes abstraites et statiques
 class abstractclassmethod(classmethod):
     __isabstractmethod__ = True;
 

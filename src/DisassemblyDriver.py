@@ -19,14 +19,23 @@ class DisassemblyDriver(object):
     @abstractmethod
     def disassemble(self, filename): pass;
     
-    #Méthode pour récupérer la liste des regexes
+    #Méthode pour récupérer la liste des regexes qui correspondent aux jumps
     @abstractmethod
     def get_jumps_regexes(self): pass;
     
+    #Méthode abstraite et statique qui renvoie le nom du driver
     @abstractclassmethod.abstractclassmethod
     def get_name(): pass;
     
+    #Méthode abstraite pour récupérer les dépendances du driver
     @abstractmethod
     def get_dependencies(self): pass;
+    
+    #Méthode qui vérifie si une instruction est un saut en parcourant les regex
+    def is_jump(self, instruction):
+        for regex in self.compiled_jumps_regexes:
+            if regex.match(instruction.mnemonic):
+                return True;    
+        return False;
 
         

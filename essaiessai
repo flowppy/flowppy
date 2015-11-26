@@ -1,0 +1,128 @@
+Linear disassembly of section .text
+0x400440: 31 ED                      xor	%ebp, %ebp
+0x400442: 49 89 D1                   mov	%rdx, %r9
+0x400445: 5E                         pop	%rsi
+0x400446: 48 89 E2                   mov	%rsp, %rdx
+0x400449: 48 83 E4 F0                and	$0xfffffffffffffff0, %rsp
+0x40044d: 50                         push	%rax
+0x40044e: 54                         push	%rsp
+0x40044f: 49 C7 C0 E0 05 40 00       mov	$0x4005e0, %r8
+0x400456: 48 C7 C1 70 05 40 00       mov	$0x400570, %rcx
+0x40045d: 48 C7 C7 2D 05 40 00       mov	$0x40052d, %rdi
+0x400464: E8 B7 FF FF FF             callq	0x0000000000400420
+0x400469: F4                         hlt	
+0x40046a: 66 0F 1F 44 00 00          nopw	0x0(%rax,%rax,1)
+0x400470: B8 47 10 60 00             mov	$0x601047, %eax
+0x400475: 55                         push	%rbp
+0x400476: 48 2D 40 10 60 00          sub	$0x601040, %rax
+0x40047c: 48 83 F8 0E                cmp	$0xe, %rax
+0x400480: 48 89 E5                   mov	%rsp, %rbp
+0x400483: 77 02                      ja	0x0000000000400487
+0x400485: 5D                         pop	%rbp
+0x400486: C3                         retq	
+0x400487: B8 00 00 00 00             mov	$0x0, %eax
+0x40048c: 48 85 C0                   test	%rax, %rax
+0x40048f: 74 F4                      je	0x0000000000400485
+0x400491: 5D                         pop	%rbp
+0x400492: BF 40 10 60 00             mov	$0x601040, %edi
+0x400497: FF E0                      jmpq	*%rax
+0x400499: 0F 1F 80 00 00 00 00       nopl	0x0(%rax)
+0x4004a0: B8 40 10 60 00             mov	$0x601040, %eax
+0x4004a5: 55                         push	%rbp
+0x4004a6: 48 2D 40 10 60 00          sub	$0x601040, %rax
+0x4004ac: 48 C1 F8 03                sar	$0x3, %rax
+0x4004b0: 48 89 E5                   mov	%rsp, %rbp
+0x4004b3: 48 89 C2                   mov	%rax, %rdx
+0x4004b6: 48 C1 EA 3F                shr	$0x3f, %rdx
+0x4004ba: 48 01 D0                   add	%rdx, %rax
+0x4004bd: 48 D1 F8                   sar	%rax
+0x4004c0: 75 02                      jne	0x00000000004004c4
+0x4004c2: 5D                         pop	%rbp
+0x4004c3: C3                         retq	
+0x4004c4: BA 00 00 00 00             mov	$0x0, %edx
+0x4004c9: 48 85 D2                   test	%rdx, %rdx
+0x4004cc: 74 F4                      je	0x00000000004004c2
+0x4004ce: 5D                         pop	%rbp
+0x4004cf: 48 89 C6                   mov	%rax, %rsi
+0x4004d2: BF 40 10 60 00             mov	$0x601040, %edi
+0x4004d7: FF E2                      jmpq	*%rdx
+0x4004d9: 0F 1F 80 00 00 00 00       nopl	0x0(%rax)
+0x4004e0: 80 3D 59 0B 20 00 00       cmpb	$0x0, 0x200b59(%rip)	#  0x0000000000601040
+0x4004e7: 75 11                      jne	0x00000000004004fa
+0x4004e9: 55                         push	%rbp
+0x4004ea: 48 89 E5                   mov	%rsp, %rbp
+0x4004ed: E8 7E FF FF FF             callq	0x0000000000400470
+0x4004f2: 5D                         pop	%rbp
+0x4004f3: C6 05 46 0B 20 00 01       movb	$0x1, 0x200b46(%rip)	#  0x0000000000601040
+0x4004fa: F3 C3                      repz  retq	
+0x4004fc: 0F 1F 40 00                nopl	0x0(%rax)
+0x400500: 48 83 3D 18 09 20 00 00    cmpq	$0x0, 0x200918(%rip)	#  0x0000000000600e20
+0x400508: 74 1E                      je	0x0000000000400528
+0x40050a: B8 00 00 00 00             mov	$0x0, %eax
+0x40050f: 48 85 C0                   test	%rax, %rax
+0x400512: 74 14                      je	0x0000000000400528
+0x400514: 55                         push	%rbp
+0x400515: BF 20 0E 60 00             mov	$0x600e20, %edi
+0x40051a: 48 89 E5                   mov	%rsp, %rbp
+0x40051d: FF D0                      callq	*%rax
+0x40051f: 5D                         pop	%rbp
+0x400520: E9 7B FF FF FF             jmpq	0x00000000004004a0
+0x400525: 0F 1F 00                   nopl	(%rax)
+0x400528: E9 73 FF FF FF             jmpq	0x00000000004004a0
+0x40052d: 55                         push	%rbp
+0x40052e: 48 89 E5                   mov	%rsp, %rbp
+0x400531: 48 83 EC 10                sub	$0x10, %rsp
+0x400535: C7 45 FC 02 00 00 00       movl	$0x2, -0x4(%rbp)
+0x40053c: EB 0E                      jmp	0x000000000040054c
+0x40053e: 83 7D FC 03                cmpl	$0x3, -0x4(%rbp)
+0x400542: 75 04                      jne	0x0000000000400548
+0x400544: 83 45 FC 04                addl	$0x4, -0x4(%rbp)
+0x400548: 83 45 FC 01                addl	$0x1, -0x4(%rbp)
+0x40054c: 83 7D FC 19                cmpl	$0x19, -0x4(%rbp)
+0x400550: 75 EC                      jne	0x000000000040053e
+0x400552: 8B 45 FC                   mov	-0x4(%rbp), %eax
+0x400555: 89 C6                      mov	%eax, %esi
+0x400557: BF F4 05 40 00             mov	$0x4005f4, %edi
+0x40055c: B8 00 00 00 00             mov	$0x0, %eax
+0x400561: E8 AA FE FF FF             callq	0x0000000000400410
+0x400566: B8 00 00 00 00             mov	$0x0, %eax
+0x40056b: C9                         leaveq	
+0x40056c: C3                         retq	
+0x40056d: 0F 1F 00                   nopl	(%rax)
+0x400570: 41 57                      push	%r15
+0x400572: 41 89 FF                   mov	%edi, %r15d
+0x400575: 41 56                      push	%r14
+0x400577: 49 89 F6                   mov	%rsi, %r14
+0x40057a: 41 55                      push	%r13
+0x40057c: 49 89 D5                   mov	%rdx, %r13
+0x40057f: 41 54                      push	%r12
+0x400581: 4C 8D 25 88 08 20 00       lea	0x200888(%rip), %r12	#  0x0000000000600e10
+0x400588: 55                         push	%rbp
+0x400589: 48 8D 2D 88 08 20 00       lea	0x200888(%rip), %rbp	#  0x0000000000600e18
+0x400590: 53                         push	%rbx
+0x400591: 4C 29 E5                   sub	%r12, %rbp
+0x400594: 31 DB                      xor	%ebx, %ebx
+0x400596: 48 C1 FD 03                sar	$0x3, %rbp
+0x40059a: 48 83 EC 08                sub	$0x8, %rsp
+0x40059e: E8 3D FE FF FF             callq	0x00000000004003e0
+0x4005a3: 48 85 ED                   test	%rbp, %rbp
+0x4005a6: 74 1E                      je	0x00000000004005c6
+0x4005a8: 0F 1F 84 00 00 00 00 00    nopl	0x0(%rax,%rax,1)
+0x4005b0: 4C 89 EA                   mov	%r13, %rdx
+0x4005b3: 4C 89 F6                   mov	%r14, %rsi
+0x4005b6: 44 89 FF                   mov	%r15d, %edi
+0x4005b9: 41 FF 14 DC                callq	*(%r12,%rbx,8)
+0x4005bd: 48 83 C3 01                add	$0x1, %rbx
+0x4005c1: 48 39 EB                   cmp	%rbp, %rbx
+0x4005c4: 75 EA                      jne	0x00000000004005b0
+0x4005c6: 48 83 C4 08                add	$0x8, %rsp
+0x4005ca: 5B                         pop	%rbx
+0x4005cb: 5D                         pop	%rbp
+0x4005cc: 41 5C                      pop	%r12
+0x4005ce: 41 5D                      pop	%r13
+0x4005d0: 41 5E                      pop	%r14
+0x4005d2: 41 5F                      pop	%r15
+0x4005d4: C3                         retq	
+0x4005d5: 66 66 2E 0F 1F 84 00 00    data32  nopw	%cs:0x0(%rax,%rax,1)
+          00 00 00
+0x4005e0: F3 C3                      repz  retq	
