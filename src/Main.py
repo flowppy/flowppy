@@ -31,7 +31,7 @@ output_formats = ["png", "gif", "svg", "svgz", "dot"];
 def main(input_file = "", output_file = "", output_format = "", render_engine = "dot", graph_type = "regular", quiet_mode = False, disassembly_driver = "opdis", *render_options):
     #Détail des options pour clize
     """
-    Creates an control flow graph from a binary file using opdis and graphviz.
+    Creates an control flow graph from a binary file using graphviz.
     
     input_file: The binary file to create the graph from. Will use stdin if missing.
     
