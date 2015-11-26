@@ -18,7 +18,7 @@ Le programme se base sur plusieurs modules externes en Python (principalement `n
 * écrire des drivers pour d'autres langages : Java, C#, Smali...
 
 ##Fonctionnalités
-    Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
+    Usage: opdis-flow-control-graph [OPTIONS] [render-options...]
     
     Creates an control flow graph from a binary file using graphviz.
     
