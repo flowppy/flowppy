@@ -9,7 +9,7 @@ Le type de graphe ainsi que le moteur utilisé pour désassembler sont abstraits
 
 Le programme se base sur plusieurs modules externes en Python (principalement `networkx`) ainsi que sur des utilitaires tels qu’`opdis` ou `graphviz` (liste détaillée plus bas).
 
-###Améliorations futures
+###Améliorations possibles
 * interface graphique dynamique
 * version intégrée à un site web
 * exécution pas à pas liée au graphe
@@ -23,30 +23,21 @@ Le programme se base sur plusieurs modules externes en Python (principalement `n
     Creates an control flow graph from a binary file using opdis and graphviz.
     
     Arguments:
-      render-options...         The options to use when rendering the graph. See graphviz's "dot"
-                                manual for more details.
+      render-options...              The options to use when rendering the graph. See graphviz's "dot" manual for more details.
     
     Options:
-      -i, --input-file=STR      The binary file to create the graph from. Will use stdin if missing.
-                                (default: )
-      -o, --output-file=STR     The file to save the graph to. Will use stdout if missing. (default: )
-      -r, --render-engine=STR   The graphviz engine to use when rendering the graph. Can be "dot",
-                                "neato", "circo", "fdp", "sfdp" or "twopi". (default: dot)
-      -t, --graph-type=STR      The type of the final graph. Can be "regular" (one instruction per
-                                node) or "condensed" (multiple instructions per node, jumps and calls
-                                as edges). (default: regular)
-      -q, --quiet-mode          If enabled, the program will not output anything except for the
-                                resulting graph, even when failing.
-      -f, --output-format=STR   The format of the output file. Can be png, gif, svg, svgz or dot.
-                                (default: png)
-      -d, --disassembly-driver=STR
-                                The disassembly driver to use. The only driver currently supported is
-                                opdis. (default: opdis)
+      -i, --input-file=STR           The binary file to create the graph from. Will use stdin if missing. (default: )
+      -o, --output-file=STR          The file to save the graph to (will use stdout if missing). The extension is used to guess the format, please use the output-format option to override it. (default: )
+      -r, --render-engine=STR        The graphviz engine to use when rendering the graph. Can be "dot", "neato", "circo", "fdp", "sfdp" or "twopi". (default: dot)
+      -t, --graph-type=STR           The type of the final graph. Can be "regular" (one instruction per node) or "condensed" (multiple instructions per node, jumps and calls as edges). (default: regular)
+      -q, --quiet-mode               If enabled, the program will not output anything except for the resulting graph, even when failing.
+      -f, --output-format=STR        The format of the output file. Can be png, gif, svg, svgz or dot. Will take the output file extension if omitted. (default: )
+      -d, --disassembly-driver=STR   The disassembly driver to use. The only driver currently supported is opdis. (default: opdis)
     
     Other actions:
-      -h, --help                Show the help 
+      -h, --help                     Show the help
 
-Le programme prend un fichier binaire en entrée (`--input-file`) et génère en sortie un graphe sous la forme d'une image ou d'un fichier `dot` (`--output-file`). Si rien n'est mis, le programme utilisera l'entrée et la sortie standard. Le format de sortie peut être précisé avec l'option `--output-format`. Si vous ne souhaitez pas afficher les potentielles erreurs, utilisez l'option `--quiet-mode`.
+Le programme prend un fichier binaire en entrée (`--input-file`) et génère en sortie un graphe sous la forme d'une image ou d'un fichier `dot` (`--output-file`). Si rien n'est mis, le programme utilisera l'entrée et la sortie standard. Le format de sortie est déduit de l'extention du fichier de sortie, mais peut être écrasé avec l'option `--output-format` (qui est cependant nécessaire pour la sortie standard, il n'y a pas d'extension avec laquelle déduire). Si vous ne souhaitez pas afficher les potentielles erreurs, utilisez l'option `--quiet-mode`.
 
 Les options `--graph-type` et `--render-engine` permettent de personnaliser le rendu final, avec respectivement le type de graphe à produire (une ou plusieurs instructions par noeud) et le moteur de rendu à utiliser (voir la documentation de `graphviz` pour plus de détails).
 
