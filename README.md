@@ -20,7 +20,7 @@ Le programme se base sur plusieurs modules externes en Python (principalement `n
 ##Fonctionnalités
     Usage: opdis-control-flow-graph [OPTIONS] [render-options...]
     
-    Creates an control flow graph from a binary file using opdis and graphviz.
+    Creates an control flow graph from a binary file using graphviz.
     
     Arguments:
       render-options...              The options to use when rendering the graph. See graphviz's "dot" manual for more details.
