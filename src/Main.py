@@ -21,7 +21,6 @@ import DisassemblyDriver;
 import OpdisDriver;
 
 
-
 #Liste des valeurs supportées par les différentes options
 render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
 output_formats = ["png", "gif", "svg", "svgz", "dot"];
@@ -29,14 +28,14 @@ output_formats = ["png", "gif", "svg", "svgz", "dot"];
 #Main
 @annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f", disassembly_driver = "d")
 @autokwoargs
-def main(input_file = "", output_file = "", output_format = "png", render_engine = "dot", graph_type = "regular", quiet_mode = False, disassembly_driver = "opdis", *render_options):
+def main(input_file = "", output_file = "", output_format = "", render_engine = "dot", graph_type = "regular", quiet_mode = False, disassembly_driver = "opdis", *render_options):
     #Détail des options pour clize
     """
     Creates an control flow graph from a binary file using opdis and graphviz.
     
     input_file: The binary file to create the graph from. Will use stdin if missing.
     
-    output_file: The file to save the graph to. Will use stdout if missing.
+    output_file: The file to save the graph to (will use stdout if missing). The extension is used to guess the format, please use the output-format option to override it.
     
     render_engine: The graphviz engine to use when rendering the graph. Can be "dot", "neato", "circo", "fdp", "sfdp" or "twopi".
     
@@ -46,7 +45,7 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
     
     quiet_mode: If enabled, the program will not output anything except for the resulting graph, even when failing.
     
-    output_format: The format of the output file. Can be png, gif, svg, svgz or dot.
+    output_format: The format of the output file. Can be png, gif, svg, svgz or dot. Will take the output file extension if omitted.
     
     disassembly_driver: The disassembly driver to use. The only driver currently supported is opdis.
     """
@@ -87,6 +86,12 @@ def main(input_file = "", output_file = "", output_format = "png", render_engine
         outputManager.print_error("File not found : " + input_file);
         return;
     #output_format
+    if output_file and not output_format:
+        output_file_splitted = output_file.split("."); #détection du format depuis l'extension
+        output_format = output_file_splitted[len(output_file_splitted)-1];
+    elif not output_file and not output_format:
+        outputManager.print_error("Missing output format, please use the --output-format (-f) option"); #aucun format donné pour stdout, aucune extension pour deviner
+        return;
     if not output_format in output_formats:
         outputManager.print_error("Unknown output format : " + output_format);
         return;
