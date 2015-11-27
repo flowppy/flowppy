@@ -86,8 +86,8 @@ class Bloc(object):
         #Méthode de création du graph
     def get_graph(self, graph, driver):
         #Passed mark
-        label_str=" ";
-        label_str2=" ";
+        label_str="";
+        label_str2="";
         """
         Condition Gauche:
         
@@ -99,11 +99,12 @@ class Bloc(object):
             if driver.is_jump(self.instruction[len(self.instruction)-1]) :
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonLeft.instruction[0].vma,0):
             
-                    label_str = self.instruction[len(self.instruction)-1].create_string();
+                    label_str =self.instruction[len(self.instruction)-1].create_string();
             elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
-                label_str = self.instruction[len(self.instruction)-1].create_string();
+                label_str =  self.instruction[len(self.instruction)-1].create_string();
             elif not(len(self.instruction)>0):
                 self.dad.replaceSon(self,self.blocSonLeft);
+            
                 
             
             self.passedL = True;
@@ -111,7 +112,7 @@ class Bloc(object):
             
             graph = self.blocSonLeft.get_graph(graph, driver);
             
-            graph.add_edge("\"" + self.instructionStr(driver)+ "\"" ,"\"" + self.blocSonLeft.instructionStr(driver)+ "\"", label = label_str);
+            graph.add_edge("\"" + self.instructionStr(driver)+ "\"" ,"\"" + self.blocSonLeft.instructionStr(driver)+ "\"", label = "\""+label_str+"\"");
         """
         Condition Droite
         """
@@ -124,11 +125,12 @@ class Bloc(object):
                 label_str2 = self.instruction[len(self.instruction)-1].create_string();
             elif not(len(self.instruction)>0):
                 self.dad.replaceSon(self,self.blocSonLeft);
+
             
             self.passedR = True;
             graph = self.blocSonRight.get_graph(graph, driver);
             
-            graph.add_edge("\"" + self.instructionStr(driver)+ "\"", "\"" + self.blocSonRight.instructionStr(driver) + "\"", label = label_str2);
+            graph.add_edge("\"" + self.instructionStr(driver)+ "\"", "\"" + self.blocSonRight.instructionStr(driver) + "\"", label = "\""+label_str2+"\"");
         return graph;
         
         
