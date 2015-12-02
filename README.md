@@ -1,5 +1,4 @@
 ![](https://github.com/natinusala/flowppy/blob/master/images/banniere.png)
-#flowppy
 
 ##Présentation du projet
 Ce programme en Python (3.4) consiste en la génération d’un graphe de flot de contrôle à partir du fichier binaire d’un programme. Autrement dit, à partir d’un fichier obtenu après compilation, notre programme va permettre de récupérer les instructions assembleur correspondant à son déroulement et de les visualiser sous forme d’un graphe.
