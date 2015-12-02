@@ -1,3 +1,4 @@
+![](https://github.com/natinusala/opdis-flow-control-graph/blob/master/images/banniere.png)
 #opdis-flow-control-graph
 
 ##Présentation du projet
