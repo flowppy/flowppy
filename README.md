@@ -1,5 +1,5 @@
-![](https://github.com/natinusala/opdis-flow-control-graph/blob/master/images/banniere.png)
-#opdis-flow-control-graph
+![](https://github.com/natinusala/flowppy/blob/master/images/banniere.png)
+#flowppy
 
 ##Présentation du projet
 Ce programme en Python (3.4) consiste en la génération d’un graphe de flot de contrôle à partir du fichier binaire d’un programme. Autrement dit, à partir d’un fichier obtenu après compilation, notre programme va permettre de récupérer les instructions assembleur correspondant à son déroulement et de les visualiser sous forme d’un graphe.
@@ -17,7 +17,7 @@ Le programme se base sur plusieurs modules externes en Python (principalement `n
 * écrire des drivers pour d'autres langages : Java, C#, Smali...
 
 ##Fonctionnalités
-    Usage: opdis-flow-control-graph [OPTIONS] [render-options...]
+    Usage: flowppy [OPTIONS] [render-options...]
     
     Creates an control flow graph from a binary file using graphviz.
     
@@ -46,13 +46,13 @@ Dans l'optique de supporter plusieurs langages de programmation, le désassemble
 Des fichiers binaires d'exemples sont fournis dans le dossier `testbinaries` et peuvent être compilés via le script fourni à cet effet (nécessite `gcc`).
 
     #Générer un graphe simple du binaire acc au format PNG
-    ./opdis-flow-control-graph -i testbinaries/acc -o graph.png 
+    ./flowppy -i testbinaries/acc -o graph.png 
     
     #Générer un graphe condensé du binaire acc au format GIF et avec le moteur neato
-    ./opdis-flow-control-graph -i testbinaries/acc -o graph.gif -t condensed -r neato
+    ./flowppy -i testbinaries/acc -o graph.gif -t condensed -r neato
     
     #Récupérer le graphe au format DOT dans la sortie standard (pas de -o)
-    ./opdis-flow-control-graph -i testbinaries/acc -f dot
+    ./flowppy -i testbinaries/acc -f dot
 
 ##Dépendances
 Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
