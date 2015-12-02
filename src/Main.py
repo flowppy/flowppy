@@ -176,5 +176,5 @@ def delete_file_if_exists(filename):
         pass;
         
 if __name__ == "__main__":
-    sys.argv[0] = "opdis-flow-control-graph";
+    sys.argv[0] = "flowppy";
     run(main);
