@@ -45,7 +45,14 @@ Dans l'optique de supporter plusieurs langages de programmation, le désassemble
 ##Exemples d'utilisation
 Des fichiers binaires d'exemples sont fournis dans le dossier `testbinaries` et peuvent être compilés via le script fourni à cet effet (nécessite `gcc`).
 
-TODO: Mettre les exemples variés
+    #Générer un graphe simple du binaire acc au format PNG
+    ./opdis-flow-control-graph -i testbinaries/acc -o graph.png 
+    
+    #Générer un graphe condensé du binaire acc au format GIF et avec le moteur neato
+    ./opdis-flow-control-graph -i testbinaries/acc -o graph.gif -t condensed -r neato
+    
+    #Récupérer le graphe au format DOT dans la sortie standard (pas de -o)
+    ./opdis-flow-control-graph -i testbinaries/acc -f dot
 
 ##Dépendances
 Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
