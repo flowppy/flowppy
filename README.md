@@ -67,7 +67,7 @@ Enfin, des dépendances externes optionnelles selon le driver que vous voulez ut
 * `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
 
 
-##Installation
+##Installation sous Debian et dérivés
 Pour installer le programme, clonez le dépôt dans un dossier local. Vérifiez que vous avez Python 3.4 d'installé puis récupérez les modules via la commande :
 
 `sudo pip3 install clize networkx pydot2`
