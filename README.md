@@ -62,7 +62,7 @@ Il y a également des dépendances externes obligatoires :
 * `graphviz` - utilisé pour le rendu des graphes en images
 
 Enfin, des dépendances externes optionnelles selon le driver que vous voulez utiliser :
-* `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
+* `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet.
 
 
 ##Installation sous Debian et dérivés
