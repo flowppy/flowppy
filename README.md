@@ -76,6 +76,7 @@ Installez ensuite les dépendances externes :
 
 Et enfin `opdis` si vous souhaitez l'utiliser ; pour ce faire, allez sur [leur dépôt](https://github.com/mkfs/opdis), clonez le et suivez leurs instructions :
 
+    sudo apt-get install binutils binutils-dev libtool
     ./bootstrap
     ./configure
     make
