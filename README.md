@@ -1,7 +1,5 @@
 ![](https://github.com/natinusala/flowppy/blob/master/images/banniere.png)
-#flowppy
 
-##Présentation du projet
 Ce programme en Python (3.4) consiste en la génération d’un graphe de flot de contrôle à partir du fichier binaire d’un programme. Autrement dit, à partir d’un fichier obtenu après compilation, notre programme va permettre de récupérer les instructions assembleur correspondant à son déroulement et de les visualiser sous forme d’un graphe.
 
 Le type de graphe ainsi que le moteur utilisé pour désassembler sont abstraits, ce qui permet d’avoir plusieurs rendus différents et une prise en charge de plusieurs langages de programmation.
@@ -64,7 +62,7 @@ Il y a également des dépendances externes obligatoires :
 * `graphviz` - utilisé pour le rendu des graphes en images
 
 Enfin, des dépendances externes optionnelles selon le driver que vous voulez utiliser :
-* `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet
+* `opdis` - utilisé pour désassembler des fichiers binaires - peut être installé sur le système ou localement dans le dossier `opdis` adjacent au projet.
 
 
 ##Installation sous Debian et dérivés
