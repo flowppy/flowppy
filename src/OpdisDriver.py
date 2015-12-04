@@ -41,7 +41,7 @@ class OpdisDriver(DisassemblyDriver.DisassemblyDriver):
             if (self.xml_node_has_child(instructionNode, "operands")):
                 for operandNode in instructionNode.getElementsByTagName("operand"):
                     operand = Operand.Operand(
-                        operandNode.attributes["name"],
+                        operandNode.attributes["name"] if ("name" in operandNode.attributes) else "",
                         self.get_xml_child_value(operandNode, "ascii")
                     );
                     instruction.add_operand(operand);
