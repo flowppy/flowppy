@@ -56,7 +56,7 @@ Des fichiers binaires d'exemples sont fournis dans le dossier `testbinaries` et 
 Le programme est développé en Python 3.4, il donc nécessite de l'avoir d'installé. Il faut également installer ces modules (via la commande `pip3`) :
 * `clize` - utilisé pour parser les options en ligne de commande et pour générer le message d'aide
 * `networkx` - utilisé pour générer le graphe en interne
-* `pydot2` - utilisé pour effectuer l'exporation du graphe vers le format de `graphviz`
+* `pydotplus` - utilisé pour effectuer l'exporation du graphe vers le format de `graphviz`
 
 Il y a également des dépendances externes obligatoires :
 * `graphviz` - utilisé pour le rendu des graphes en images
@@ -68,7 +68,7 @@ Enfin, des dépendances externes optionnelles selon le driver que vous voulez ut
 ##Installation sous Debian et dérivés
 Pour installer le programme, clonez le dépôt dans un dossier local. Vérifiez que vous avez Python 3.4 d'installé puis récupérez les modules via la commande :
 
-`sudo pip3 install clize networkx pydot2`
+`sudo pip3 install clize networkx pydotplus`
 
 Installez ensuite les dépendances externes :
 
