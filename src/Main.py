@@ -184,7 +184,7 @@ def to_json(graph, output_file, graph_type):
     json = "";
     nodes = graph.node;
     edges = graph.edges();
-    json = json + "nodes : { \n";
+    json = json + "nodes : [ \n";
     cpt = 1;
     for node in nodes:
         if graph_type == "condensed":
@@ -196,8 +196,8 @@ def to_json(graph, output_file, graph_type):
         nodes_id[node] = cpt;
         json = json + str_buff;
         cpt = cpt+1;
-    json = json + "},\n";
-    json = json + "edges : {\n";
+    json = json + "],\n";
+    json = json + "edges : [\n";
     for edge in edges:
         str_buff = "{from: "+str(nodes_id[edge[0]])+", to: "+str(nodes_id[edge[1]]);
         if(len(edge) == 3):
@@ -205,7 +205,7 @@ def to_json(graph, output_file, graph_type):
         else:
             str_buff = str_buff + "},\n";
         json = json + str_buff;
-    json = json + "}";
+    json = json + "]";
     if output_file != "":
         json_file = open(output_file, "w");
         json_file.write(json);
