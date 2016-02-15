@@ -125,7 +125,7 @@ def main(input_file = "", output_file = "", output_format = "", render_engine = 
         
         #Création du .dot dans un fichier temporaire
         dot_file = tempfile.NamedTemporaryFile(delete = False);
-        nx.write_dot(graph, dot_file.name);
+        nx.drawing.nx_pydot.write_dot(graph, dot_file.name);
         
         #On regarde l'output demandé
         if output_file:
