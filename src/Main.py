@@ -189,7 +189,7 @@ def to_json(graph, output_file, graph_type):
     for node in nodes:
         if graph_type == "condensed":
             node_str = node.replace("\l", "\\n");
-            node_str = node_str[:len(node)-1];
+            node_str = node_str[:len(node)-2]+'\\n;
         else:
             node_str = node[:len(node)-2]+'\\n"';
         str_buff = "{id:"+str(cpt)+", label:"+node_str+"},  \n";
