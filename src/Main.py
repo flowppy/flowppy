@@ -11,6 +11,7 @@ import OutputManager;
 import subprocess;
 import traceback;
 import networkx as nx;
+import string;
 
 #Import des drivers
 import GraphDriver;
@@ -22,8 +23,8 @@ import OpdisDriver;
 
 
 #Liste des valeurs supportées par les différentes options
-render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi"];
-output_formats = ["png", "gif", "svg", "svgz", "dot"];
+render_engines = ["dot", "neato", "circo", "fdp", "sfdp", "twopi" ];
+output_formats = ["png", "gif", "svg", "svgz", "dot", "json"];
 
 #Main
 @annotate(input_file = "i", output_file = "o", render_engine = "r", graph_type = "t", quiet_mode = "q", output_format = "f", disassembly_driver = "d")
@@ -147,7 +148,8 @@ def main(input_file = "", output_file = "", output_format = "", render_engine = 
             #On convertit le .dot temporaire dans stdout
             sys.stdout.buffer.write(render_and_read_graph(render_engine, render_options, output_format, dot_file.name));
             sys.stdout.flush();
-              
+        if output_format == "json":
+                to_json(graph, output_file, graph_type);      
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
 
@@ -165,16 +167,53 @@ def render_and_read_graph(render_engine, render_options, output_format, dot_file
 
 #Méthode pour créer tous les dossiers parents d'un fichier
 def makedirs(filename):
-    if not os.path.exists(os.path.dirname(os.path.abspath(filename))):
-        os.makedirs(os.path.dirname(os.path.abspath(filename)));
-        
-#Méthode pour supprimer un fichier qui existe peut-être
-def delete_file_if_exists(filename):
-    try:
+    if not os.path.exists(os.path.dirname(os.path.abspath(filename))):  
+        os.makedirs(os.path.dirname(os.path.abspath(filename)));   
+          
+#Méthode pour supprimer un fichier qui existe peut-être    
+def delete_file_if_exists(filename):  
+    try:    
         os.remove(filename)
     except OSError:
         pass;
-        
-if __name__ == "__main__":
-    sys.argv[0] = "flowppy";
-    run(main);
+ 
+#méthode pour générer un JSON du graph
+
+def to_json(graph, output_file, graph_type):
+    nodes_id = {};
+    json = "";
+    nodes = graph.node;
+    edges = graph.edges();
+    json = json + "nodes : { \n";
+    cpt = 1;
+    for node in nodes:
+        if graph_type == "condensed":
+            node_str = node.replace("\l", "\\n");
+            node_str = node_str[:len(node)-2]+'\\n"';
+        else:
+            node_str = node[:len(node)-2]+'\\n"';
+        str_buff = "{id:"+str(cpt)+", label:"+node_str+"},  \n";
+        nodes_id[node] = cpt;
+        json = json + str_buff;
+        cpt = cpt+1;
+    json = json + "},\n";
+    json = json + "edges : {\n";
+    for edge in edges:
+        str_buff = "{from: "+str(nodes_id[edge[0]])+", to: "+str(nodes_id[edge[1]]);
+        if(len(edge) == 3):
+            str_buff = str_buff + ', label : "'+edge[3]+' \\n"}, \n';
+        else:
+            str_buff = str_buff + "},\n";
+        json = json + str_buff;
+    json = json + "}";
+    if output_file != "":
+        json_file = open(output_file, "w");
+        json_file.write(json);
+        json_file.close();
+    else:
+        print(json);
+    
+    
+if __name__ == "__main__":       
+    sys.argv[0] = "flowppy";      
+    run(main);     
