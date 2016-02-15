@@ -183,13 +183,13 @@ def to_json(graph, output_file, graph_type):
     nodes_id = {};
     json = "";
     nodes = graph.node;
-    edges = graph.edges();
+    edges = graph.edges(data = True);
     json = json + "nodes : [ \n";
     cpt = 1;
     for node in nodes:
         if graph_type == "condensed":
             node_str = node.replace("\l", "\\n");
-            node_str = node_str[:len(node)-2]+'\\n"';
+            node_str = node_str[:len(node)-1];
         else:
             node_str = node[:len(node)-2]+'\\n"';
         str_buff = "{id:"+str(cpt)+", label:"+node_str+"},  \n";
@@ -200,8 +200,8 @@ def to_json(graph, output_file, graph_type):
     json = json + "edges : [\n";
     for edge in edges:
         str_buff = "{from: "+str(nodes_id[edge[0]])+", to: "+str(nodes_id[edge[1]]);
-        if(len(edge) == 3):
-            str_buff = str_buff + ', label : "'+edge[3]+' \\n"}, \n';
+        if(edge[2]['label'] != '""'):
+            str_buff = str_buff + ', label : '+edge[2]['label']+'}, \n';
         else:
             str_buff = str_buff + "},\n";
         json = json + str_buff;
