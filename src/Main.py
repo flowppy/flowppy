@@ -13,6 +13,8 @@ import traceback;
 import networkx as nx;
 import string;
 
+import JsonMaker;
+
 #Import des drivers
 import GraphDriver;
 import RegularDriver;
@@ -149,7 +151,7 @@ def main(input_file = "", output_file = "", output_format = "", render_engine = 
             sys.stdout.buffer.write(render_and_read_graph(render_engine, render_options, output_format, dot_file.name));
             sys.stdout.flush();
         if output_format == "json":
-                to_json(graph, output_file, graph_type);      
+                JsonMaker.to_json(graph, output_file, graph_type);      
     except Exception as e:
         outputManager.print_error("Error while creating graph : " + str(e) + "\n" + str(traceback.format_exc()));
 
@@ -176,43 +178,7 @@ def delete_file_if_exists(filename):
         os.remove(filename)
     except OSError:
         pass;
- 
-#méthode pour générer un JSON du graph
 
-def to_json(graph, output_file, graph_type):
-    nodes_id = {};
-    json = "";
-    nodes = graph.node;
-    edges = graph.edges(data = True);
-    json = json + "nodes : [ \n";
-    cpt = 1;
-    for node in nodes:
-        if graph_type == "condensed":
-            node_str = node.replace("\l", "\\n");
-            node_str = node_str[:len(node)-1]+'"\n';
-        else:
-            node_str = node[:len(node)-2]+'\\n"';
-        str_buff = "{id:"+str(cpt)+", label:"+node_str+"},  \n";
-        nodes_id[node] = cpt;
-        json = json + str_buff;
-        cpt = cpt+1;
-    json = json + "],\n";
-    json = json + "edges : [\n";
-    for edge in edges:
-        str_buff = "{from: "+str(nodes_id[edge[0]])+", to: "+str(nodes_id[edge[1]]);
-        if(edge[2]['label'] != '""'):
-            str_buff = str_buff + ', label : '+edge[2]['label']+'}, \n';
-        else:
-            str_buff = str_buff + "},\n";
-        json = json + str_buff;
-    json = json + "]";
-    if output_file != "":
-        json_file = open(output_file, "w");
-        json_file.write(json);
-        json_file.close();
-    else:
-        print(json);
-    
     
 if __name__ == "__main__":       
     sys.argv[0] = "flowppy";      
