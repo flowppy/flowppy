@@ -45,7 +45,7 @@ class Bloc(object):
     def instructionStr(self, driver):
         str = "";
         line =0;
-        for i in range (0,len(self.instruction)-1):
+        for i in range (0,len(self.instruction)):
             #if(self.driver.is_jump(inst)){ ajout du offset}
             str = str  + self.instruction[i].create_string()+ "\l";
             line = 1;
@@ -83,6 +83,46 @@ class Bloc(object):
             self.blocSonRight = bloc1;
         
         
+        
+    def getJumpFlag(self,instruction):
+        if instruction.mnemonic == "je":
+            return "ZF=1"
+        if instruction.mnemonic == "jne":
+            return "ZF=0"
+        if instruction.mnemonic == "jg":
+            return "(ZF=0) AND (SF=OF)"
+        if instruction.mnemonic == "jge":
+            return "SF=OF"
+        if instruction.mnemonic == "jl":
+            return "SF≠OF"
+        if instruction.mnemonic == "jle":
+            return "(ZF=1) OR (SF≠OF)"
+        if instruction.mnemonic == "ja":
+            return "(CF=0) AND (ZF=0)"
+        if instruction.mnemonic == "jae":
+            return "CF=0"
+        if instruction.mnemonic == "jb":
+            return "CF=1"
+        if instruction.mnemonic == "jbe":
+            return "(CF=1) OR (ZF=1)"
+        if instruction.mnemonic == "jo":
+            return "OF=1"
+        if instruction.mnemonic == "jno":
+            return "OF=0"
+        if instruction.mnemonic == "jc":
+            return "CF=1"
+        if instruction.mnemonic == "jnc":
+            return "CF=0"
+        if instruction.mnemonic == "js":
+            return "SF=1"
+        if instruction.mnemonic == "jns":
+            return "SF=0"
+        if instruction.mnemonic == "jz":
+            return "ZF=1"
+        if instruction.mnemonic == "jnz":
+            return "ZF=0"
+        return "Unknow Jump"
+        
         #Méthode de création du graph
     def get_graph(self, graph, driver):
         #Passed mark
@@ -94,12 +134,11 @@ class Bloc(object):
         Ici, travail recursif sur l'arbre, meme chose du coté droit. Condition pour eviter de tourner infinimment dans l'arbre,
         et pour que les etiquettes de jump n'apparaissent que sur les liens concernés.
         """
-        
         if self.blocSonLeft is not None and not self.passedL:
             if driver.is_jump(self.instruction[len(self.instruction)-1]) :
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonLeft.instruction[0].vma,0):
             
-                    label_str =self.instruction[len(self.instruction)-1].create_string();
+                    label_str ="Test : " + Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
             elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
                 label_str =  self.instruction[len(self.instruction)-1].create_string();
             elif not(len(self.instruction)>0):
@@ -120,7 +159,7 @@ class Bloc(object):
             if driver.is_jump(self.instruction[len(self.instruction)-1]):
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonRight.instruction[0].vma,0):
                     
-                    label_str2 = self.instruction[len(self.instruction)-1].create_string();
+                    label_str2 ="Test : " + Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
             elif self.instruction[len(self.instruction)-1].mnemonic == "callq":
                 label_str2 = self.instruction[len(self.instruction)-1].create_string();
             elif not(len(self.instruction)>0):
