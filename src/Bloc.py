@@ -45,16 +45,12 @@ class Bloc(object):
     def instructionStr(self, driver):
         str = "";
         line =0;
-        for i in range (0,len(self.instruction)):
+        for i in range (0,len(self.instruction)-1):
             #if(self.driver.is_jump(inst)){ ajout du offset}
-            str = str  + self.instruction[i].create_string()+ "\l";
+            str = str  + self.instruction[i].create_string()+ "\n";
             line = 1;
         if len(self.instruction) >0:
-            if not (driver.is_jump(self.instruction[len(self.instruction)-1])) and not self.instruction[len(self.instruction)-1].mnemonic == "callq":
-                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\l";
-    
-            if(line==0):
-                    str= self.instruction[0].ascii
+                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\n";
         else:
             self.dad.replaceSon(self,self.blocSonLeft);
       
