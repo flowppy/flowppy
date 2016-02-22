@@ -8,7 +8,7 @@ def to_json(graph, output_file, graph_type):
     for node in nodes:
         if graph_type == "condensed":
             node_str = node.replace("\l", "\\n");
-            node_str = node_str[:len(node)-1]+'"\n';
+            node_str = node_str[:len(node)-1]+'\\n"';
         else:
             node_str = node[:len(node)-2]+'\\n"';
         str_buff = "{id:"+str(cpt)+", label:"+node_str+"},  \n";
@@ -25,7 +25,6 @@ def to_json(graph, output_file, graph_type):
         if(edge[2]['label'] != '""'):
             str_buff = str_buff + ', label : '+edge[2]['label'];
         if (nodes_id[edge[0]] in one_edge or nodes_id[edge[1]] in one_edge):
-        #if nodes_id[edge[0]] in one_edge:
             str_buff = str_buff + ",	smooth: { enabled: false }";
         str_buff = str_buff + "},\n";
         json = json + str_buff;
