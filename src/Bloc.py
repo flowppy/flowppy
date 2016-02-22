@@ -45,12 +45,12 @@ class Bloc(object):
     def instructionStr(self, driver):
         str = "";
         line =0;
-        for i in range (0,len(self.instruction)-1):
+        for i in range (0,len(self.instruction)-2):
             #if(self.driver.is_jump(inst)){ ajout du offset}
             str = str  + self.instruction[i].create_string()+ "\\n";
             line = 1;
         if len(self.instruction) >0:
-                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\\n";
+                str = str  +self.instruction[len(self.instruction)-1].create_string();
         else:
             self.dad.replaceSon(self,self.blocSonLeft);
       
@@ -82,41 +82,41 @@ class Bloc(object):
         
     def getJumpFlag(self,instruction):
         if instruction.mnemonic == "je":
-            return "ZF=1"
+            return "ZF == 1"
         if instruction.mnemonic == "jne":
-            return "ZF=0"
+            return "ZF == 0"
         if instruction.mnemonic == "jg":
-            return "(ZF=0) AND (SF=OF)"
+            return "(ZF == 0) AND (SF == OF)"
         if instruction.mnemonic == "jge":
-            return "SF=OF"
+            return "SF == OF"
         if instruction.mnemonic == "jl":
-            return "SF≠OF"
+            return "SF ≠ OF"
         if instruction.mnemonic == "jle":
-            return "(ZF=1) OR (SF≠OF)"
+            return "(ZF == 1) OR (SF ≠ OF)"
         if instruction.mnemonic == "ja":
-            return "(CF=0) AND (ZF=0)"
+            return "(CF == 0) AND (ZF == 0)"
         if instruction.mnemonic == "jae":
-            return "CF=0"
+            return "CF == 0"
         if instruction.mnemonic == "jb":
-            return "CF=1"
+            return "CF == 1"
         if instruction.mnemonic == "jbe":
-            return "(CF=1) OR (ZF=1)"
+            return "(CF == 1) OR (ZF == 1)"
         if instruction.mnemonic == "jo":
-            return "OF=1"
+            return "OF == 1"
         if instruction.mnemonic == "jno":
-            return "OF=0"
+            return "OF == 0"
         if instruction.mnemonic == "jc":
-            return "CF=1"
+            return "CF == 1"
         if instruction.mnemonic == "jnc":
-            return "CF=0"
+            return "CF == 0"
         if instruction.mnemonic == "js":
-            return "SF=1"
+            return "SF == 1"
         if instruction.mnemonic == "jns":
-            return "SF=0"
+            return "SF == 0"
         if instruction.mnemonic == "jz":
-            return "ZF=1"
+            return "ZF == 1"
         if instruction.mnemonic == "jnz":
-            return "ZF=0"
+            return "ZF == 0"
         return "Unknow Jump"
         
         #Méthode de création du graph
@@ -134,9 +134,7 @@ class Bloc(object):
             if driver.is_jump(self.instruction[len(self.instruction)-1]) :
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonLeft.instruction[0].vma,0):
             
-                    label_str ="Test : " + Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
-            elif self.instruction[len(self.instruction)-1].mnemonic == "callq" :
-                label_str =  self.instruction[len(self.instruction)-1].create_string();
+                    label_str = Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
             elif not(len(self.instruction)>0):
                 self.dad.replaceSon(self,self.blocSonLeft);
             
@@ -155,9 +153,7 @@ class Bloc(object):
             if driver.is_jump(self.instruction[len(self.instruction)-1]):
                 if int(self.instruction[len(self.instruction)-1].operands[0].ascii,0) >= int(self.blocSonRight.instruction[0].vma,0):
                     
-                    label_str2 ="Test : " + Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
-            elif self.instruction[len(self.instruction)-1].mnemonic == "callq":
-                label_str2 = self.instruction[len(self.instruction)-1].create_string();
+                    label_str2 = Bloc.getJumpFlag(self,self.instruction[len(self.instruction)-1]);
             elif not(len(self.instruction)>0):
                 self.dad.replaceSon(self,self.blocSonLeft);
 
