@@ -47,10 +47,10 @@ class Bloc(object):
         line =0;
         for i in range (0,len(self.instruction)-1):
             #if(self.driver.is_jump(inst)){ ajout du offset}
-            str = str  + self.instruction[i].create_string()+ "\n";
+            str = str  + self.instruction[i].create_string()+ "\\n";
             line = 1;
         if len(self.instruction) >0:
-                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\n";
+                str = str  +self.instruction[len(self.instruction)-1].create_string()+ "\\n";
         else:
             self.dad.replaceSon(self,self.blocSonLeft);
       
