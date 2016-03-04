@@ -23,7 +23,7 @@ class OpdisDriver(DisassemblyDriver.DisassemblyDriver):
         
     def disassemble(self, filename):
         #Exécution d'opdis et récupération du XML
-        xml = subprocess.Popen(["opdis", "-q", "-d", "-f", "xml", "-S", ".text", filename], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.read();
+        xml = subprocess.Popen(["opdis", "-q", "-d", "-f", "xml", "-N", "main", filename], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.read();
         document = parseString(xml).documentElement;   
         
         #Création de la liste des instructions
