@@ -28,6 +28,9 @@ class CondensedDriver(GraphDriver.GraphDriver):
             cur_inst = instructions_table[i];
             
             
+            if( cur_inst.mnemonic =="cmpl"):
+                bloc_cur.addInstruction(cur_inst)
+            
             if(super(CondensedDriver, self).is_jump(cur_inst)):
                 #condition pour faire remonter l'adresse cible d'un jump vers un bloc déjà créé
                 if(int(cur_inst.operands[0].ascii, 0)<int(cur_inst.vma,0)):#
@@ -89,6 +92,8 @@ class CondensedDriver(GraphDriver.GraphDriver):
         graph = bloc_origin.get_graph(graph, self);
         
         return graph;
+
+
 
 
 
